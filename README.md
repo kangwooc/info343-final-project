@@ -14,8 +14,8 @@ Users will not be allowed to take the challenge more than once a day, but they w
 
 Responsibilities will be divided as follows:
 
-Will Tucker – User account management and sign-in/sign out functionality
-Kangwoo Choi – Scoring and Leaderboard tracking and management
-Tina Zhuang – API call and question generation/presentation
-Mesfin Bekele – Timer and daily update functionality
+- Will Tucker – User account management and sign-in/sign out functionality
+- Kangwoo Choi – Scoring and Leaderboard tracking and management
+- Tina Zhuang – API call and question generation/presentation
+- Mesfin Bekele – Timer and daily update functionality
 
