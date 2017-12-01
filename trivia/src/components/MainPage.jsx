@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
 
 //import LeaderBoard from "./LeaderBoard";
 
@@ -11,22 +10,25 @@ export default class MainPage extends React.Component {
         this.state = {taken: false}
     }
 
-    takeQuiz() {
-        return (
-            <div className="container">
-                <button
-                    className="btn btn-primary"
-                    onClick={() => this.takeQuiz() } >
-                    Take Quiz!
-                </button>
-            </div>
-        );   
+    quiz() {
+        this.setState({taken: true});
+        //direct to quiz page
     }
 
     render() {
         let taken;
-        if(this.state.taken) {
-
+        if(!this.state.taken) {
+            taken = (
+                <div className="container">
+                    <button
+                        className="btn btn-primary" 
+                        onClick={() => this.quiz()}>
+                        Take Quiz!
+                    </button>
+                </div>
+            ); 
+        } else {    //taken
+            taken = "Come back tomorrow!";
         }
         return (
             <div className="Main">
@@ -35,10 +37,8 @@ export default class MainPage extends React.Component {
                 </header>
 
                 {/*leaderboard part*/}
-                
- 
-                {this.state.taken ? 
-                "Come back tomorrow!" : takeQuiz()}
+                 
+                {taken}
 
 
             </div>
