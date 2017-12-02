@@ -21,7 +21,7 @@ export default class LeaderBoard extends Component {
         this.getChartData();
     }
     
-    // Create a random color for each bar
+    // Create a random color for each bar - might be unneccesary or should live with player creation
     makeRandomColor(){
         var color = "";
         while (color.length < 7) {
@@ -29,7 +29,7 @@ export default class LeaderBoard extends Component {
         }
         return "#" + color;
     }
-    
+
     getChartData(){
         this.setState({
             chartData: {
@@ -47,7 +47,7 @@ export default class LeaderBoard extends Component {
                         9,
                         5
                     ],
-                    // backgroundColor - Array of random color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
+                    // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
                     backgroundColor:[
                         'rgba(255, 99, 132, 0.6)',
                         'rgba(54, 162, 235, 0.6)',
@@ -94,6 +94,10 @@ export default class LeaderBoard extends Component {
                             zeroLineColor: "black",
                             zeroLineWidth: 2,
                           },
+                          // Ticks should vary based on day/week/overall
+                          // Day min:0, max:10, stepSize: 1
+                          // Week min:0, max:70, stepSize: 7
+                          // Overall min:0, max: highest score, stepSize: highest score / 10
                           ticks: {
                             min: 0,
                             max: 10,
