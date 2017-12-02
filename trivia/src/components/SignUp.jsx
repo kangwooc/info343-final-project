@@ -59,7 +59,7 @@ export default class SignUpView extends React.Component {
                         <label htmlFor="email">Email</label>
                         <input id="Email" type="text"className="form-control"
                             placeholder="enter your Email"
-                            value={this.state.Emsil}
+                            value={this.state.email}
                             onInput={evt => this.setState({email: evt.target.value})}
                         />
                         </div>
