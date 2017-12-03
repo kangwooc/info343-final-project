@@ -11,7 +11,7 @@ export default class QuizPageView extends Component {
             checked: false,
             API_KEY: "https://opentdb.com/api.php?amount=10&token=",
             token: undefined,
-            questions:[],
+            qna:[],
             time:""
         };
         
@@ -21,57 +21,56 @@ export default class QuizPageView extends Component {
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
             this.setState({currentUser:user})
         });
-
-        let TOKEN_REQUEST = "https://opentdb.com/api_token.php?command=request";
-        
-        fetch(TOKEN_REQUEST)
-            .then(response => response.json())
-            .then(data =>this.setState({token:data.token}))
-            .catch(err => console.error(err));
-        console.log(this.state.token);
-
-        // var measureTime = window.setInterval(function(){
-        //     time = minute + " m "+second+" s";
-        //     document.getElementById("time").innerHTML = time;
-        //     second++;
-        //     if(second === 60){
-        //         second = 0;
-        //         minute++;
-        //     }
-        // },1000); 
-            
     }
 
     componentWillUnMount(){
         this.authUnsub();
     }
+
     componentDidMount(){
+        let TOKEN_REQUEST = "https://opentdb.com/api_token.php?command=request";
+        fetch(TOKEN_REQUEST)
+            .then(response => response.json())
+            .then(data =>this.setState({token:data.token}))
+            .catch(err => console.error(err));
+        console.log(this.state.token);
+    }
+    
+    componentDidUpdate(){
         fetch(this.state.API_KEY+this.state.token)
             .then(response => response.json())
             .then((data)=>{
-                console.log(data);
                 data.results.forEach((elem)=>{
-                    
+                    this.state.questions.push(elem.question);
                 })
             })
         .catch(err => console.error(err));
+        console.log(this.state.API_KEY+this.state.token);
+        console.log(this.state.token)
+        console.log(this.state.questions);
     }
 
-    changeDate(){
-        let day = new Date();
-        let n = day.getUTCDay();
-        console.log(n);
-        console.log(day.getUTCDay());
-        return ( n !== day.getUTCDay());
+    // changeDate(){
+    //     let day = new Date();
+    //     let n = day.getUTCDay();
+    //     console.log(n);
+    //     console.log(day.getUTCDay());
+    //     return ( n !== day.getUTCDay());
+    // }
+    handleAnswer(evt){
+        evt.preventDefault();
+
     }
 
     render(){
-        
+        console.log(this.state.API_KEY+this.state.token);
+        console.log(this.state.token)
+        console.log(this.state.questions);
         return(
             <div id = "quiz">
-                <div className = "">
+                <form onSubmit = {(evt)=>this.handleAnswer(evt)}>
                     
-                </div>
+                </form>
             </div>
         );
     }
