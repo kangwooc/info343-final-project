@@ -30,6 +30,7 @@ export default class MainPage extends React.Component {
         } else {    //taken
             taken = "Come back tomorrow!";
         }
+        
         return (
             <div className="Main">
                 <header className="jumbotron bg-dark">
