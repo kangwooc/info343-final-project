@@ -20,6 +20,7 @@ export default class QuizPageView extends Component {
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
             this.setState({currentUser:user})
         });
+
         fetch(this.state.API_KEY)
         .then(response => response.json())
         .then((data)=>{
@@ -31,17 +32,23 @@ export default class QuizPageView extends Component {
                     answer:""
                 };
                 let q = elem.question.replace(/&quot;/g,'"').replace(/&#039;/g,"'");
-                console.log(q);
+                var anss = [];
+                for(let i=0;i<elem.incorrect_answers.length;i++){
+                    anss.push(elem.incorrect_answers[i].replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&scaron;/g,"š"));
+                }
+                var ans = elem.correct_answer.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&scaron;/g,"š");
                 QNA.question = q;
-                QNA.answers = elem.incorrect_answers;
-                QNA.answer = elem.correct_answer;
+                QNA.answers = anss;
+                QNA.answer = ans;
+                console.log(QNA.answers);
+                console.log(QNA.answer);
                 QNA.answers.push(QNA.answer);
                 QNAs.push(QNA);
             })
             this.setState({
                 QNAs:QNAs
             });
-            for(var i=0;i < data.results.length; i++){
+            for(var i = 0;i < data.results.length; i++){
                 this.shuffleArray(this.state.QNAs[i].answers);
             }
         })
@@ -75,49 +82,49 @@ export default class QuizPageView extends Component {
         }
     }
     
-
+    
     render(){
-        
+        var ProblemsandAnswers = this.state.QNAs.map((qna,index)=>(
+            <div>
+                <div id = "question" className = "alert alert-success">{qna.question}</div>
+                <div className="radio">
+                    <label>
+                        <input type="radio" value={qna.answers[0]} 
+                                    checked={this.state.selectedOption === qna.answers[0]} 
+                                    onChange={evt=>this.handleOptionChange(evt)} />
+                        {qna.answers[0]} {console.log(qna)} 
+                    </label>
+                </div>
+                <div className="radio">
+                    <label>
+                        <input type="radio" value={qna.answers[1]} 
+                                    checked={this.state.selectedOption === qna.answers[1]} 
+                                    onChange={evt=>this.handleOptionChange(evt)} />
+                        {qna.answers[1]} 
+                    </label>
+                </div>
+                <div className="radio">
+                    <label>
+                        <input type="radio" value={qna.answers[2]} 
+                                    checked={this.state.selectedOption === qna.answers[2]} 
+                                    onChange={evt=>this.handleOptionChange(evt)} />
+                        {qna.answers[2]} 
+                    </label>
+                </div>
+                <div className="radio">
+                    <label>
+                        <input type="radio" value={qna.answers[3]}  
+                                    checked={this.state.selectedOption === qna.answers[3]} 
+                                    onChange={evt=>this.handleOptionChange(evt)} />
+                        {qna.answers[3]} 
+                    </label>
+                </div>
+            </div>
+        ));
         return(
             <div id = "quiz">
                 <form onSubmit = {(evt)=>this.handleAnswer(evt)}>
-                    {this.state.QNAs.map((qna,index)=>(
-                    <div>
-                        <div id = "question" className = "alert alert-success">{qna.question}</div>
-                        <div className="radio">
-                            <label>
-                                <input type="radio" value={qna.answers[0]} 
-                                            checked={this.state.selectedOption === this.props.value} 
-                                            onChange={evt=>this.handleOptionChange(evt)} />
-                                {qna.answers[0]} 
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label>
-                                <input type="radio" value={qna.answers[1]} 
-                                            checked={this.state.selectedOption === "option2"} 
-                                            onChange={evt=>this.handleOptionChange(evt)} />
-                                {qna.answers[1]} 
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label>
-                                <input type="radio" value={qna.answers[2]} 
-                                            checked={this.state.selectedOption === "option4" } 
-                                            onChange={evt=>this.handleOptionChange(evt)} />
-                                {qna.answers[2]} 
-                            </label>
-                        </div>
-                        <div className="radio">
-                            <label>
-                                <input type="radio" value={qna.answers[3]}  
-                                            checked={this.state.selectedOption === "option4"} 
-                                            onChange={evt=>this.handleOptionChange(evt)} />
-                                {qna.answers[3]} 
-                            </label>
-                        </div>
-                    </div>
-                    ))}
+                    {ProblemsandAnswers}
                     <button className="btn btn-primary" type="submit">Save</button>
                 </form>
             </div>
