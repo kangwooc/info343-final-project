@@ -3,22 +3,14 @@ import LeaderBoard from './components/LeaderBoard';
 import './App.css';
 
 class App extends Component {
-  constructor(){
-    super();
-    this.state = {
-      chartData:{
-      
-      }
-    }
-  }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to Trivial!</h1>
-        </header>
-        <LeaderBoard chartData={this.state.chartData} />
+        <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1">Trivial</span>
+      </nav>
+        <LeaderBoard  />
       </div>
     );
   }

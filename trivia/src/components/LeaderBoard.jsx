@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { HorizontalBar } from 'react-chartjs-2';
+import { HorizontalBar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
+import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
+
 //const names = ["dave", "sally", "bob"];
 //const scores = [8, 3, 6];
 
@@ -14,7 +16,6 @@ export default class LeaderBoard extends Component {
     static defaultProps = {
         displayTitle: true,
         //displayLegend: false,
-       
     }
 
     componentWillMount(){
@@ -34,19 +35,12 @@ export default class LeaderBoard extends Component {
         this.setState({
             chartData: {
                 // labels - array that houses player names
-                labels: ['Dave', 'Tina', 'Will', 'Choi', 'Nelson', 'Jacob'],
+                labels: ['Bob', 'Dave', 'Will', 'Choi', 'Tina', 'Jacob'],
                 datasets: [
                     {
                     label: 'Score',
                     // data - array of player scores
-                    data: [
-                        8,
-                        7,
-                        4,
-                        9,
-                        9,
-                        5
-                    ],
+                    data: [8,7,4,9,9,5],
                     // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
                     backgroundColor:[
                         'rgba(255, 99, 132, 0.6)',
@@ -65,6 +59,9 @@ export default class LeaderBoard extends Component {
 
     render(){
         return (
+            
+            <div>
+                <Timer countDown startTime={10} tick={1000}/>
             <div className="chart">
             <HorizontalBar
                 data={this.state.chartData}
@@ -116,6 +113,8 @@ export default class LeaderBoard extends Component {
                 }}
                 />
             </div>
+            </div>
+            
         )
     }
 }
