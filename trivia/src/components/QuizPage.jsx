@@ -16,10 +16,10 @@ export default class QuizPageView extends Component {
             problemNum: 1,
             time: 1000
         };
-
-        this.updateScore = this.updateScore.bind(true);
+        
     }
-    componentDidMountTimer () {
+
+    componentDidMountTimer() {
         setInterval(
             function() {
                 this.setState({time: this.state.time - 100 });       
@@ -30,7 +30,7 @@ export default class QuizPageView extends Component {
                 this.setState({time: 1000});
                 
             }
-        // a question has been asnwered
+        // a question has been answered
         //this.setState({time: 1000});
         return(
             <div>
@@ -71,7 +71,7 @@ export default class QuizPageView extends Component {
                 myQNAs[h] = QNA;
                 h++;
             })
-            for(let i = 1;i <= data.results.length; i++){
+            for(let i = 1; i <= data.results.length; i++){
                 this.shuffleArray(myQNAs[i].answers);
             }
             this.setState({QNAs : myQNAs});
@@ -93,26 +93,30 @@ export default class QuizPageView extends Component {
         }
     }
 
-    handleAnswer(evt){
+    handleAnswer(evt, score){
         evt.preventDefault();
         let h = this.state.problemNum;
         h++;
         this.setState({
             problemNum: h
         })
+        score++; 
+        this.setState({score: score});
+        console.log("handleAnswer prop: " + this.state.score);
+        
         
     }
-    updateScore(){
 
-    }
-    render(){
- 
+    
+
+    render(){            
         return(
             <div id = "quiz">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
-                <form onSubmit = {(evt)=>this.handleAnswer(evt)}>
-                    <Quiz problem = {this.state.QNAs[this.state.problemNum]} score = {this.state.score} scoreCallBack = {() =>{this.updateScore}} />
+                <form onSubmit = {(evt)=>this.handleAnswer(evt, this.state.score)}>
+                    <Quiz problem = {this.state.QNAs[this.state.problemNum]} score={this.state.score} />
+                    {console.log(this.state.score)}
                     <button className="btn btn-primary" type="submit">Next -></button>
                 </form>
             </div>
@@ -127,55 +131,57 @@ class Quiz extends Component {
             selectedOption: undefined
         }
     }
-    scoreCallBack(){
-
-    }
 
     handleOptionChange(changeEvent) {
         this.setState({
-          selectedOption: changeEvent.target.value
+          selectedOption: changeEvent.target.value,
+          currentScore: this.props.score
         });
     }
 
+
+
     render(){
         console.log(this.props.problem);
+
         return (
             <div>
+                {console.log("Quiz current score state: " + this.state.currentScore)}
                 {this.props.problem !== undefined ?
                 <div>
-                    <div id = "score">{this.props.score} of 10</div>
+                    <div id = "score">{this.props.score} of {this.props.problem.number-1}</div>
                     <div id = "question" className = "alert alert-success">{this.props.problem.number}.{" "+this.props.problem.question}</div>
                         <form>
-                            <div className="radio">
+                            <div className = "radio">
                             <label>
-                                <input type="radio" value={this.props.problem.answers[0]} 
-                                            checked={this.state.selectedOption ===  this.props.problem.answers[0]} 
+                                <input type = "radio" value = {this.props.problem.answers[0]} 
+                                            checked={this.state.selectedOption === this.props.problem.answers[0]} 
                                             onChange={(evt)=>this.handleOptionChange(evt)} />
-                                {" "+this.props.problem.answers[0]}
+                                {" " + this.props.problem.answers[0]}
                             </label>
                             </div>
-                            <div className="radio">
+                            <div className = "radio">
                             <label>
-                                <input type="radio" value={this.props.problem.answers[1]}
+                                <input type = "radio" value = {this.props.problem.answers[1]}
                                             checked={this.state.selectedOption === this.props.problem.answers[1]} 
-                                            onChange={(evt)=>this.handleOptionChange(evt)} />
-                                {" "+this.props.problem.answers[1]}
+                                            onChange={(evt) => this.handleOptionChange(evt)} />
+                                {" " + this.props.problem.answers[1]}
                             </label>
                             </div>
                             <div className="radio">
                             <label>
-                                <input type="radio" value={this.props.problem.answers[2]}
-                                            checked={this.state.selectedOption === this.props.problem.answers[2]} 
-                                            onChange={(evt)=>this.handleOptionChange(evt)} />
-                                {" "+this.props.problem.answers[2]}
+                                <input type="radio" value = {this.props.problem.answers[2]}
+                                            checked = {this.state.selectedOption === this.props.problem.answers[2]} 
+                                            onChange = {(evt)=>this.handleOptionChange(evt)} />
+                                {" " + this.props.problem.answers[2]}
                             </label>
                             </div>
                             <div className="radio">
                             <label>
-                                <input type="radio" value={this.props.problem.answers[3]}
-                                            checked={this.state.selectedOption === this.props.problem.answers[3]} 
-                                            onChange={ (evt)=>this.handleOptionChange(evt)} />
-                                {" "+this.props.problem.answers[3]}
+                                <input type="radio" value = {this.props.problem.answers[3]}
+                                            checked = {this.state.selectedOption === this.props.problem.answers[3]} 
+                                            onChange = { (evt)=>this.handleOptionChange(evt)} />
+                                {" " + this.props.problem.answers[3]}
                             </label>
                             </div>
                         </form>
@@ -186,4 +192,3 @@ class Quiz extends Component {
 
     }
 }
-
