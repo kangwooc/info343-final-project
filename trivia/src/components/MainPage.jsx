@@ -8,12 +8,8 @@ import 'firebase/database';
 export default class MainPage extends React.Component {
     constructor(props) {
         super(props);
-        //if taken: this.state.taken = true
-        this.state = {taken: false}
     }
-
-
-     
+   
     quiz() {
         this.setState({taken: true});
         //direct to quiz page
@@ -22,17 +18,12 @@ export default class MainPage extends React.Component {
     render() {
         let taken;
         var user = firebase.auth().currentUser;
-        var moment = require('moment');
-        setTimeout(
-            midnightTask,
-            moment("24:00:00", "hh:mm:ss").diff(moment(), 'seconds')
-         );
-         
-        function midnightTask() {
-           //set user.taken to be false
-        }
-
-        if(taken) {
+        var dateobj= new Date() ;
+        var month = dateobj.getMonth() + 1;
+        var day = dateobj.getDate() ;
+        var year = dateobj.getFullYear();
+        var date = user.month == month && user.day == day && user.year == year;
+        if(date) {
             taken = (
                 <div className="container">
                     <button
