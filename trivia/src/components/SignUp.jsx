@@ -27,35 +27,36 @@ export default class SignUpView extends React.Component {
 
         firebase.auth()
         .createUserWithEmailAndPassword(this.state.email,this.state.password)
+        .then(function(user) {
+            if (user) { this.setState({authenticated:true}) } 
+            return user;
+        }.bind(this))
         .then(user => user.updateProfile({
             lastTestTaken: null
         }))
-        
         .catch(function(error) {
             console.log(error.code + ": " + error.message );
-        })
-        .then(() => console.log("Success!"));
-                                                                         
-        this.setState({firstName: "",lastName:"",email:"",password:""});
+            this.setState({errorMessage: error.message})
+        }.bind(this));
     }
 
     render() {
         return (
             <div className="container">
                 <h1>Sign Up</h1>
+                      {
+                    this.state.errorMessage &&
+                    <p className="alert alert-danger">{this.state.errorMessage}</p>    
+                }
                     <form>  
                     <div className="form-group">
-                        <label htmlFor="firstName">First Name</label>
-                        <input id="lasttName" type="text"className="form-control"
-                            placeholder="enter your first name"
-                            value={this.state.firstName}
-                            onInput={evt => this.setState({firstName: evt.target.value})}
-                        />
+                        
+                            
                         </div>                                                                                                   
                          <div className="form-group">
-                        <label htmlFor="lastName">last Name</label>
-                        <input id="lastName" type="text"className="form-control"
-                            placeholder="enter your first name"
+                        <label htmlFor="DisplayName">DisplayName</label>
+                        <input id="DisplayName" type="text"className="form-control"
+                            placeholder="type your DisplayName "
                             value={this.state.lastName}
                             onInput={evt => this.setState({lastName: evt.target.value})}
                         />

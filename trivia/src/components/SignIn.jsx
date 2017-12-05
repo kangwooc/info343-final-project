@@ -17,11 +17,13 @@ export default class SignInView extends React.Component {
         console.log("signing in user with credentials: %s, %s", this.state.email, this.state.password);
         firebase.auth()
         .signInWithEmailAndPassword(this.state.email,this.state.password)
+        .then(function(user) {
+            if (user) { this.setState({authenticated:true}) } 
+        }.bind(this))
         .catch(function(error) {
             console.log(error.code + ": " + error.message );
             this.setState({errorMessage: error.message})
-        }.bind(this))
-        .then(() => this.setState({authenticated: true}));
+        }.bind(this));
         
 
   

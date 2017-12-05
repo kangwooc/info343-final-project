@@ -7,7 +7,7 @@ import './App.css';
 import SignUpView from './components/SignUp.jsx';
 import SignInView from './components/SignIn.jsx';
 import constants from './components/Constants.jsx';
-//import channel from "./components/channel.js"
+
  
 class App extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class App extends Component {
   }
   render() {
     if (!this.state.authenicated) {
-      console.log("");
+      console.log("not authenicated");
     
     }
     return (
@@ -79,9 +79,7 @@ class App extends Component {
           user is <strong>{this.state.authenicated? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working? "working on it !" : undefined}</span>
         
-        <p>
-            <button className="btn btn-primary"onClick={()=>this.handleSignOut()}> sign Out!</button>
-        </p>
+         
 
         <Router>
         
