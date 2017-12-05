@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import constants from "../constants";
+import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth"
 
@@ -11,7 +11,7 @@ export default class SignUpView extends React.Component {
             firstName: "",
             lastName: "",
             email: "",
-            password: "",
+            password: "" 
         }
     }    
 
@@ -27,10 +27,15 @@ export default class SignUpView extends React.Component {
 
         firebase.auth()
         .createUserWithEmailAndPassword(this.state.email,this.state.password)
+        .then(user => user.updateProfile({
+            lastTestTaken: null
+        }))
+        
         .catch(function(error) {
             console.log(error.code + ": " + error.message );
         })
-        .then(() => console.log("Success!"));                                                                   
+        .then(() => console.log("Success!"));
+                                                                         
         this.setState({firstName: "",lastName:"",email:"",password:""});
     }
 
@@ -49,7 +54,7 @@ export default class SignUpView extends React.Component {
                         </div>                                                                                                   
                          <div className="form-group">
                         <label htmlFor="lastName">last Name</label>
-                        <input id="lasttName" type="text"className="form-control"
+                        <input id="lastName" type="text"className="form-control"
                             placeholder="enter your first name"
                             value={this.state.lastName}
                             onInput={evt => this.setState({lastName: evt.target.value})}

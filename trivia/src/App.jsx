@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Switch, Redirect, Route, Link } from 'react-router-dom';
+import { Link, BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-
 import './App.css';
-import SignUpView from './components/SignUp';
-import SignInView from './components/SignIn';
-
-
+import SignUpView from './components/SignUp.jsx';
+import SignInView from './components/SignIn.jsx';
+import constants from './components/Constants.jsx';
+//import channel from "./components/channel.js"
  
 class App extends Component {
   constructor(props) {
@@ -17,8 +16,8 @@ class App extends Component {
       authenicated: false,
       firstName:"",
       lastName:"",
-      email: "",
-      password: "",
+      email: "test@test.com",
+      password: "secretpassword",
       displayName:"Tester"
       
     };
@@ -58,25 +57,13 @@ class App extends Component {
   }
   render() {
     if (!this.state.authenicated) {
-      console.log("not authenicated");
+      console.log("");
     
     }
     return (
       <div className="App">
         <header className=" bg-dark text-white">
-        <header class="row header">
-		
-				<h1>trivia</h1>
-				<p class="lead motto"></p>
-				<nav role="navigation">
-    				<ul>
-        				<li><a href="#location">location</a></li>
-        				<li><a href="#menu">menu</a></li>        				
-        				<li><a href="#about">about</a></li>
-   					</ul>
-				</nav>
-						
-			</header>
+        <h1>Trivia</h1>
       </header>
       <div className="container">
         {
@@ -99,18 +86,21 @@ class App extends Component {
         <Router>
         
         <Switch>
-            <Route exact path={constants.routes.signin} component={SignInView} />
+             <Route exact path={constants.routes.signin} component={SignInView} />
             <Route path={constants.routes.signup} component={SignUpView} />    
-            <Route path={constants.routes.channel} component={channel} />
+            
         </Switch>
         </Router>
-            <footer class="row footer">
-        <section>
-          <p><i>&copy; 2017, TRIVIA, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
-              <p><a href="#">Back to Top &uarr;</a></p> 
-            </section>
-      </footer>
-            
+        <div>
+        
+        <footer className="bg-dark text-white">
+        
+		<section>
+			<p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
+       		<p><a href="#">Back to Top &uarr;</a></p> 
+       	</section>
+	</footer>
+        </div>
         </div>
       </div>
     );

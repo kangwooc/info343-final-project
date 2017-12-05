@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, Redirect} from "react-router-dom";
-import constants from "../constants";
+import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth"
 export default class SignInView extends React.Component {
@@ -19,11 +19,12 @@ export default class SignInView extends React.Component {
         .signInWithEmailAndPassword(this.state.email,this.state.password)
         .catch(function(error) {
             console.log(error.code + ": " + error.message );
-            // know that the error occured
-            // display error to user using a Component
             this.setState({errorMessage: error.message})
         }.bind(this))
         .then(() => this.setState({authenticated: true}));
+        
+
+  
     }
     
 
@@ -61,7 +62,7 @@ export default class SignInView extends React.Component {
                     </div>
                 </form>
                  <p>Don't yet have an account? <Link to={constants.routes.signup}>Sign Up!</Link></p>
-                 <Link to="/channels/general">chanName</Link>
+                 {/*<Link to="/channels/general">chanName</Link>*/}
             </div>
         );
     }
