@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import Timer from 'react.timer';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -13,10 +12,30 @@ export default class QuizPageView extends Component {
             API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple",
             token: undefined,
             QNAs: {},
-            score: 0
+            score: 0,
+            time: 1000
         };
     }
-    
+    componentDidMountTimer () {
+        setInterval(
+            function() {
+                this.setState({time: this.state.time - 100 });       
+            }.bind(this)
+            , 100);
+            if (this.state.time === 0) {
+                //direct to next question
+                this.setState({time: 1000});
+                
+            }
+        // a question has been asnwered
+        //this.setState({time: 1000});
+        return(
+            <div>
+                {this.state.time}
+            </div>
+        );
+    }
+
     componentWillMount(){
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
             this.setState({currentUser:user})
@@ -71,7 +90,7 @@ export default class QuizPageView extends Component {
         }
     }
 
-    handleAnswer(evt, ){
+    handleAnswer(evt){
         evt.preventDefault();
     }
     
@@ -79,9 +98,10 @@ export default class QuizPageView extends Component {
     render(){
         
         console.log(this.state.QNAs[1]);
-        
+ 
         return(
             <div id = "quiz">
+                {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt)}>
                     <Quiz  problem = {this.state.QNAs[1]}/>
