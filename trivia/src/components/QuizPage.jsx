@@ -13,7 +13,6 @@ export default class QuizPageView extends Component {
             token: undefined,
             QNAs: {},
             score: 0,
-            problemNum: 1,
             time: 1000
         };
         
@@ -27,6 +26,7 @@ export default class QuizPageView extends Component {
             , 100);
             if (this.state.time === 0) {
                 //direct to next question
+                
                 this.setState({time: 1000});
                 
             }
@@ -185,6 +185,7 @@ class Quiz extends Component {
                             </label>
                             </div>
                         </form>
+                    
                 </div>
                 : undefined}
             </div>
