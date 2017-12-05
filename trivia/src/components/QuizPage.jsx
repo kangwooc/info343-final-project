@@ -13,11 +13,8 @@ export default class QuizPageView extends Component {
             token: undefined,
             QNAs: {},
             score: 0,
-            problemNum: 1,
             time: 1000
         };
-
-        this.updateScore = this.updateScore.bind(true);
     }
     componentDidMountTimer () {
         setInterval(
@@ -27,6 +24,7 @@ export default class QuizPageView extends Component {
             , 100);
             if (this.state.time === 0) {
                 //direct to next question
+                
                 this.setState({time: 1000});
                 
             }
@@ -71,7 +69,7 @@ export default class QuizPageView extends Component {
                 myQNAs[h] = QNA;
                 h++;
             })
-            for(let i = 1;i <= data.results.length; i++){
+            for(var i = 1;i <= data.results.length; i++){
                 this.shuffleArray(myQNAs[i].answers);
             }
             this.setState({QNAs : myQNAs});
@@ -95,24 +93,19 @@ export default class QuizPageView extends Component {
 
     handleAnswer(evt){
         evt.preventDefault();
-        let h = this.state.problemNum;
-        h++;
-        this.setState({
-            problemNum: h
-        })
-        
     }
-    updateScore(){
-
-    }
+    
+    
     render(){
+        
+        console.log(this.state.QNAs[1]);
  
         return(
             <div id = "quiz">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt)}>
-                    <Quiz problem = {this.state.QNAs[this.state.problemNum]} score = {this.state.score} scoreCallBack = {() =>{this.updateScore}} />
+                    <Quiz  problem = {this.state.QNAs[1]}/>
                     <button className="btn btn-primary" type="submit">Next -></button>
                 </form>
             </div>
@@ -127,9 +120,6 @@ class Quiz extends Component {
             selectedOption: undefined
         }
     }
-    scoreCallBack(){
-
-    }
 
     handleOptionChange(changeEvent) {
         this.setState({
@@ -141,9 +131,8 @@ class Quiz extends Component {
         console.log(this.props.problem);
         return (
             <div>
-                {this.props.problem !== undefined ?
+                {this.props.problem!==undefined ?
                 <div>
-                    <div id = "score">{this.props.score} of 10</div>
                     <div id = "question" className = "alert alert-success">{this.props.problem.number}.{" "+this.props.problem.question}</div>
                         <form>
                             <div className="radio">
@@ -179,6 +168,7 @@ class Quiz extends Component {
                             </label>
                             </div>
                         </form>
+                    
                 </div>
                 : undefined}
             </div>
