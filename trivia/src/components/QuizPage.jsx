@@ -13,12 +13,32 @@ export default class QuizPageView extends Component {
             token: undefined,
             QNAs: {},
             score: 0,
-            problemNum: 1
+            problemNum: 1,
+            time: 1000
         };
 
         this.updateScore = this.updateScore.bind(true);
     }
-    
+    componentDidMountTimer () {
+        setInterval(
+            function() {
+                this.setState({time: this.state.time - 100 });       
+            }.bind(this)
+            , 100);
+            if (this.state.time === 0) {
+                //direct to next question
+                this.setState({time: 1000});
+                
+            }
+        // a question has been asnwered
+        //this.setState({time: 1000});
+        return(
+            <div>
+                {this.state.time}
+            </div>
+        );
+    }
+
     componentWillMount(){
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
             this.setState({currentUser:user})
@@ -86,8 +106,11 @@ export default class QuizPageView extends Component {
 
     }
     render(){
+ 
         return(
             <div id = "quiz">
+                {/* {this.componentDidMountTimer()} */}
+                {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt)}>
                     <Quiz problem = {this.state.QNAs[this.state.problemNum]} score = {this.state.score} scoreCallBack = {() =>{this.updateScore}} />
                     <button className="btn btn-primary" type="submit">Next -></button>
