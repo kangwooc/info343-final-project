@@ -3,9 +3,10 @@ import { HorizontalBar } from 'react-chartjs-2';  //https://github.com/jerairres
 import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
 
 
-const names = ["Dave", "Sally", "Bob", "Dave", "Sally", "Bob", "Dave", "Sally", "Bob", "Dave"];
-const scores = [8, 3, 6, 8, 3, 6, 8, 3, 6, 8];
-//const colors = ["rgba(255, 99, 132, 0.6)", "rgba(54, 162, 235, 0.6)", "rgba(255, 206, 86, 0.6)"];
+const names = ["Eight", "Three", "Six", "Four", "Nine", "Six", "Eight", "Ten", "Six", "Three"];
+const scores = [8, 3, 6, 4, 9, 6, 8, 10, 6, 3];
+// scores.sort(function(b, a){return a-b});
+// names.sort();
 
 export default class LeaderBoard extends Component {
     constructor(props){
@@ -70,6 +71,10 @@ export default class LeaderBoard extends Component {
                                 display: this.props.displayLegend,
                                 position: this.props.legendPosition
                             },
+                            tooltips:{
+                                opacity: 0,
+                                displayColors: false,
+                            },
                             scales: {
                                 yAxes: [{
                                 barPercentage: 0.9,
@@ -104,13 +109,9 @@ export default class LeaderBoard extends Component {
                         }}
                         />
                     </div>
-                {/* <div class="row justify-content-around">
-                    <div>
-                        <button type="button" class="col btn btn-info btn-sm">Daily</button>
-                    </div>
-                    <div>
-                        <button type="button" class="col btn btn-info btn-sm">Weekly</button>
-                    </div>
+                {/* <div className="row justify-content-end">
+                        <button type="button" class="col-2 btn btn-info btn-sm">Daily</button>
+                        <button type="button" class="col-2 btn btn-info btn-sm">Weekly</button>
                 </div> */}
             </div>
         )
