@@ -15,17 +15,16 @@ class App extends Component {
       authenicated: false,
       firstName:"",
       lastName:"",
-      email: "test@test.com",
-      password: "secretpassword",
-      displayName:"Tester"
-      
+     
     };
   }
+
   componentDidMount() {
     this.authUnsub = firebase.auth().onAuthStateChanged(user => {
       this.setState({authenicated: user != null});
     });
   }
+
   componentWillUnmount() {
     this.authUnsub();
   }
@@ -45,7 +44,6 @@ class App extends Component {
     firebase.auth().signOut()
      .catch(err => this.setState({errorMessage: err.message}))
       .then(() => this.setState({working: false, authenicated: false})); 
-      
   }
 
   handleSignIn() {
@@ -55,13 +53,14 @@ class App extends Component {
       .then(() => this.setState({working: false}));
   }
   render() {
+
     if (!this.state.authenicated) {
       console.log("not authenicated");
-    
     }
+
     return (
       <div className="App">
-        <header className=" bg-dark text-white">
+        <header className="bg-dark text-white">
         <h1>Trivia</h1>
       </header>
       <div className="container">
@@ -77,7 +76,9 @@ class App extends Component {
          <p>
           user is <strong>{this.state.authenicated? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working? "working on it !" : undefined}</span>
-          
+          <p>
+             <button className="btn btn-primary"onClick={()=>this.handleSignOut()}> sign Out!</button>
+         </p>
         <Router>
         
         <Switch>

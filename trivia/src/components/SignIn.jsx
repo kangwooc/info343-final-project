@@ -12,6 +12,7 @@ export default class SignInView extends React.Component {
             errorMessage: null
         };
     }
+    
     handleSubmit(evt) {
         evt.preventDefault();
         console.log("signing in user with credentials: %s, %s", this.state.email, this.state.password);

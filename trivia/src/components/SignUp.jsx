@@ -8,8 +8,7 @@ export default class SignUpView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
+            displayName:"",
             email: "",
             password: "" 
         }
@@ -18,12 +17,11 @@ export default class SignUpView extends React.Component {
     handleSubmit(evt){
         evt.preventDefault();   
         console.log(
-            "creatting user account with credentials: %s, %s,%s,%s",
-            this.state.firstName,
-            this.state.lastName,
+            "creatting user account with credentials: %s, %s,%s",
+            this.state.displayName,
+            this.state.email,
             this.state.password
-
-        )
+        );
 
         firebase.auth()
         .createUserWithEmailAndPassword(this.state.email,this.state.password)
@@ -47,42 +45,39 @@ export default class SignUpView extends React.Component {
                 {   this.state.errorMessage &&
                     <p className="alert alert-danger">{this.state.errorMessage}</p>    
                 }
-                    <form>  
-                    <div className="form-group">
-                        
-                            
-                        </div>                                                                                                   
-                         <div className="form-group">
-                        <label htmlFor="DisplayName">DisplayName</label>
-                        <input id="DisplayName" type="text"className="form-control"
-                            placeholder="type your DisplayName "
-                            value={this.state.lastName}
-                            onInput={evt => this.setState({lastName: evt.target.value})}
-                        />
+                
+                    <form>                                                                                                 
+                        <div className="form-group">
+                            <label htmlFor="DisplayName">Display Name</label>
+                            <input id="displayName" type="text"className="form-control"
+                                placeholder="Type your DisplayName"
+                                value={this.state.displayName}
+                                onInput={evt => this.setState({lastName: evt.target.value})}
+                            />
                         </div>
-                         <div className="form-group">
-                        <label htmlFor="email">Email</label>
-                        <input id="Email" type="text"className="form-control"
-                            placeholder="enter your Email"
-                            value={this.state.email}
-                            onInput={evt => this.setState({email: evt.target.value})}
-                        />
+                        <div className="form-group">
+                            <label htmlFor="Email">Email</label>
+                            <input id="email" type="email" className="form-control"
+                                placeholder="Enter your Email"
+                                value={this.state.email}
+                                onInput={evt => this.setState({email: evt.target.value})}
+                            />
                         </div>
-                    <div className="form-group">
-                        <label htmlFor="lastName">Password</label>
-                        <input id="lastName" type="password"className="form-control"
-                        placeholder="enter your password"
-                        value={this.state.password}
-                        onInput={evt => this.setState({password: evt.target.value})}
-                        />
-                    </div>
+                        <div className="form-group">
+                            <label htmlFor="Password">Password</label>
+                            <input id="passWord" type="password"className="form-control"
+                            placeholder="Enter your password"
+                            value={this.state.password}
+                            onInput={evt => this.setState({password: evt.target.value})}
+                            />
+                        </div>
                         <div className="form-group">
                             <button type="button" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>
                                  SignUp!
                             </button>
-                    </div>
-                 </form>
-                <p>Already have an account? <Link to={constants.routes.signin}>Sign In!</Link></p>
+                        </div>
+                    </form>
+                    <p>Already have an account? <Link to={constants.routes.signin}>Sign In!</Link></p>
               </div>
         );
     }
