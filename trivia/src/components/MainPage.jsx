@@ -4,7 +4,7 @@ import constants from "./Constants";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-
+import LeaderBoard from './LeaderBoard';
 export default class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -60,7 +60,7 @@ export default class MainPage extends Component {
                     <h1 className="display-3 text-light">Trivial</h1>
                 </header>
 
-                {/*leaderboard part*/}
+                <LeaderBoard  />
                  
                 {taken}
 
@@ -69,4 +69,5 @@ export default class MainPage extends Component {
         );
     }
 }
+
 

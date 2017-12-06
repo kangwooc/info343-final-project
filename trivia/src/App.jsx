@@ -11,6 +11,7 @@ import 'firebase/auth';
 import 'firebase/database';
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -65,9 +66,9 @@ class App extends Component {
     let dateRef = firebase.database().ref("date");
     return (
       <div className="App">
-        <header className="bg-dark text-white">
-          <h1>Trivia</h1>
-        </header>
+        <nav className="navbar navbar-dark bg-dark">
+          <span className="navbar-brand mb-0 h1"><font color="orange">TRIVIAL</font></span>
+        </nav>
         <div className="container">
           {
             this.state.errorMessage ? <div className="alert alert-danger">{this.state.errorMessage}</div> :
@@ -93,13 +94,14 @@ class App extends Component {
           </Switch>
           </Router>
         </div>
-        <div>
+        <div className = "footer">
           <section>
             <footer className="bg-dark text-white">
               <p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
               <p><a href="#">Back to Top &uarr;</a></p> 
             </footer>
           </section>
+
         </div>
       </div>
     );
