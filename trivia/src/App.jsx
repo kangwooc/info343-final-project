@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Link, BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -7,6 +8,8 @@ import './App.css';
 import SignUpView from './components/SignUp.jsx';
 import SignInView from './components/SignIn.jsx';
 import constants from './components/Constants.jsx';
+import MainPage from './components/MainPage.jsx';
+
 
 class App extends Component {
   constructor(props) {
@@ -58,7 +61,8 @@ class App extends Component {
       console.log("not authenicated");
     }
 
-    return (
+    return 
+    (
       <div className="App">
         <header className="bg-dark text-white">
         <h1>Trivia</h1>
@@ -82,9 +86,9 @@ class App extends Component {
         <Router>
         
         <Switch>
-             <Route exact path={constants.routes.signin} component={SignInView} />
+            <Route exact path={constants.routes.signin} component={SignInView} />
             <Route path={constants.routes.signup} component={SignUpView} />    
-            
+            <MainPage />
         </Switch>
         </Router>
         <div>
@@ -99,6 +103,7 @@ class App extends Component {
         </div>
         </div>
       </div>
+
     );
   }
 }
