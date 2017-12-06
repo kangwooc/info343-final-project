@@ -1,3 +1,7 @@
+*{
+  box-sizing: border-box
+}
+
 body {
   color: darkslategrey;
 }
@@ -6,11 +10,6 @@ body {
   text-align: center;
 }
 
-@media (min-width: 768px) {
-  .leaderboard {
-    max-width: 768px;
-  }
-}
 
 .footer {
     position: fixed;
