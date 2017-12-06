@@ -12,6 +12,7 @@ var config = {
     storageBucket: "info343-final-ff532.appspot.com",
     messagingSenderId: "493150428563"
   };
+  
   firebase.initializeApp(config);
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

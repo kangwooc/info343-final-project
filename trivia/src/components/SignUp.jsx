@@ -1,8 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
-import "firebase/auth"
+import "firebase/auth";
 
 export default class SignUpView extends React.Component {
     constructor(props) {
@@ -10,7 +10,8 @@ export default class SignUpView extends React.Component {
         this.state = {
             displayName:"",
             email: "",
-            password: "" 
+            password: "",
+            authenticated:false 
         }
     }    
 
@@ -39,6 +40,10 @@ export default class SignUpView extends React.Component {
     }
 
     render() {
+        if (this.state.authenticated) {
+            return (<Redirect to={constants.routes.mainpage} />)
+        }
+
         return (
             <div className="container">
                 <h1>Sign Up</h1>
@@ -49,10 +54,10 @@ export default class SignUpView extends React.Component {
                     <form>                                                                                                 
                         <div className="form-group">
                             <label htmlFor="DisplayName">Display Name</label>
-                            <input id="displayName" type="text"className="form-control"
+                            <input id= "displayName" type = "text" className="form-control"
                                 placeholder="Type your DisplayName"
                                 value={this.state.displayName}
-                                onInput={evt => this.setState({lastName: evt.target.value})}
+                                onInput={evt => this.setState({displayName: evt.target.value})}
                             />
                         </div>
                         <div className="form-group">
@@ -65,7 +70,7 @@ export default class SignUpView extends React.Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor="Password">Password</label>
-                            <input id="passWord" type="password"className="form-control"
+                            <input id="passWord" type="password" className="form-control"
                             placeholder="Enter your password"
                             value={this.state.password}
                             onInput={evt => this.setState({password: evt.target.value})}

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-
-import { Link, BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Redirect, Route, Link } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import './App.css';
-import SignUpView from './components/SignUp.jsx';
-import SignInView from './components/SignIn.jsx';
-import constants from './components/Constants.jsx';
-import MainPage from './components/MainPage.jsx';
+import SignUpView from './components/SignUp';
+import SignInView from './components/SignIn';
+import constants from './components/Constants';
+import MainPageView from './components/MainPage';
 
 
 class App extends Component {
@@ -17,8 +16,7 @@ class App extends Component {
     this.state = {
       authenicated: false,
       firstName:"",
-      lastName:"",
-     
+      lastName:""
     };
   }
 
@@ -61,49 +59,44 @@ class App extends Component {
       console.log("not authenicated");
     }
 
-    return 
-    (
+    let scoreRef = firebase.database().ref("totalscore");
+    let displayNameRef = firebase.database().ref("displayname");
+    let dateRef = firebase.database().ref("date");
+    return (
       <div className="App">
         <header className="bg-dark text-white">
-        <h1>Trivia</h1>
-      </header>
-      <div className="container">
-        {
-          this.state.errorMessage ? <div className="alert alert-danger">{this.state.errorMessage}</div> :
-          undefined
-        }
-        {
-          
-          this.state.authenicated ? <div className="alert alert-success">Welcome Back{this.state.errorMessage}</div> :
-          undefined
-        }
-         <p>
-          user is <strong>{this.state.authenicated? "Authenticated!" : "Not Authenticated."}</strong></p>
+          <h1>Trivia</h1>
+        </header>
+        <div className="container">
+          {
+            this.state.errorMessage ? <div className="alert alert-danger">{this.state.errorMessage}</div> :
+            undefined
+          }
+          {
+            this.state.authenicated ? <div className="alert alert-success">Welcome Back{this.state.errorMessage}</div> :
+            undefined
+          }
+          <p>user is <strong>{this.state.authenicated? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working? "working on it !" : undefined}</span>
-          <p>
-             <button className="btn btn-primary"onClick={()=>this.handleSignOut()}> sign Out!</button>
-         </p>
-        <Router>
-        
-        <Switch>
-            <Route exact path={constants.routes.signin} component={SignInView} />
-            <Route path={constants.routes.signup} component={SignUpView} />    
-            <MainPage />
-        </Switch>
-        </Router>
-        <div>
-        
-        <footer className="bg-dark text-white">
-        
-		<section>
-			<p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
-       		<p><a href="#">Back to Top &uarr;</a></p> 
-       	</section>
-	</footer>
+          <p><button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button></p>
+          <Router>
+          <Switch>
+              <Route exact path={constants.routes.signin} component={SignInView} />
+              <Route path={constants.routes.signup} component={SignUpView} />    
+              <Route path={constants.routes.mainpage} component={MainPageView} />
+              
+          </Switch>
+          </Router>
         </div>
+        <div>
+          <section>
+            <footer className="bg-dark text-white">
+              <p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
+              <p><a href="#">Back to Top &uarr;</a></p> 
+            </footer>
+          </section>
         </div>
       </div>
-
     );
   }
 }

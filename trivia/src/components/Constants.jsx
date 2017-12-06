@@ -2,6 +2,8 @@ export default {
     routes: {
         signin: "/",
         signup: "/signup",
-        channel: "/channels/:chanName"
+        mainpage:"/mainpage",
+        quizpage:"/quizpage",
+        leaderboard:"/leaderboard"
     }
 }
