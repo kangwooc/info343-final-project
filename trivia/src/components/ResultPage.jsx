@@ -32,7 +32,6 @@ export default class ResultPage extends Component {
             </div>
         );
     
-    }        
 
+    }  
 
-}   
