@@ -18,7 +18,7 @@ export default class SignUpView extends React.Component {
     handleSubmit(evt){
         evt.preventDefault();   
         console.log(
-            "creatting user ccount with credentials: %s, %s,%s,%s",
+            "creatting user account with credentials: %s, %s,%s,%s",
             this.state.firstName,
             this.state.lastName,
             this.state.password
@@ -44,8 +44,7 @@ export default class SignUpView extends React.Component {
         return (
             <div className="container">
                 <h1>Sign Up</h1>
-                      {
-                    this.state.errorMessage &&
+                {   this.state.errorMessage &&
                     <p className="alert alert-danger">{this.state.errorMessage}</p>    
                 }
                     <form>  

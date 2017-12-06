@@ -8,7 +8,6 @@ import SignUpView from './components/SignUp.jsx';
 import SignInView from './components/SignIn.jsx';
 import constants from './components/Constants.jsx';
 
- 
 class App extends Component {
   constructor(props) {
     super(props);
@@ -78,9 +77,7 @@ class App extends Component {
          <p>
           user is <strong>{this.state.authenicated? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working? "working on it !" : undefined}</span>
-        
-         
-
+          
         <Router>
         
         <Switch>
