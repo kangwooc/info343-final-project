@@ -16,7 +16,7 @@ export default class QuizPageView extends Component {
             problemNum: 1,
             // time: 1000,
             selectedOption: undefined
-            //displayName, finalScore, firebase database
+            //displayName, finalScore, firebase database, date
         };
         this.getOption = this.getOption.bind(this);   
     }
@@ -108,11 +108,8 @@ export default class QuizPageView extends Component {
             })
             this.setState({score: score, selectedOption:undefined});
         }
-        
         console.log("total score: "+this.state.score);
-        
         console.log("this state selectedOption is: " +  this.state.selectedOption);
-        
         console.log("handleAnswer state: " + this.state.score);    
     }
 
@@ -128,7 +125,6 @@ export default class QuizPageView extends Component {
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt, this.state.score)}>
-                    
                     <Quiz problem = {this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption = {this.getOption} mySelectedOption = {this.state.selectedOption} />
                     {this.state.selectedOption === undefined ? undefined :<button className="btn btn-primary" type="submit" >Next -></button> }
                 </form>

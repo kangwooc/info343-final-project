@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Switch, Redirect, Route, Link } from 'react-router-dom';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
 import './App.css';
 import SignUpView from './components/SignUp';
 import SignInView from './components/SignIn';
 import constants from './components/Constants';
 import MainPageView from './components/MainPage';
-
+import QuizPageView from './components/QuizPage';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 class App extends Component {
   constructor(props) {
@@ -43,8 +43,9 @@ class App extends Component {
   handleSignOut() {
     this.setState({working: true});
     firebase.auth().signOut()
-     .catch(err => this.setState({errorMessage: err.message}))
+      .catch(err => this.setState({errorMessage: err.message}))
       .then(() => this.setState({working: false, authenicated: false})); 
+      this.props.history.replace("/");
   }
 
   handleSignIn() {
@@ -53,8 +54,8 @@ class App extends Component {
       .catch(err => this.setState({errorMessage: err.message}))
       .then(() => this.setState({working: false}));
   }
-  render() {
 
+  render() {
     if (!this.state.authenicated) {
       console.log("not authenicated");
     }
@@ -73,18 +74,22 @@ class App extends Component {
             undefined
           }
           {
-            this.state.authenicated ? <div className="alert alert-success">Welcome Back{this.state.errorMessage}</div> :
+            this.state.authenicated ? 
+            <div className="alert alert-success">Welcome to Trivia World{this.state.errorMessage}
+              <p>
+                <button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button>
+              </p>
+            </div> :
             undefined
           }
           <p>user is <strong>{this.state.authenicated? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working? "working on it !" : undefined}</span>
-          <p><button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button></p>
           <Router>
           <Switch>
               <Route exact path={constants.routes.signin} component={SignInView} />
               <Route path={constants.routes.signup} component={SignUpView} />    
               <Route path={constants.routes.mainpage} component={MainPageView} />
-              
+              <Route path = {constants.routes.quizpage} component = {QuizPageView}/>
           </Switch>
           </Router>
         </div>

@@ -4,9 +4,6 @@ import './index.css';
 import App from './App';
 import firebase from "firebase/app"
 import registerServiceWorker from './registerServiceWorker';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
 
 var config = {
     apiKey: "AIzaSyCuJ_qu84ygtmZ5vNOlGFsCxsRyBSqBGWg",
@@ -17,5 +14,6 @@ var config = {
     messagingSenderId: "493150428563"
   };
 firebase.initializeApp(config);
+
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

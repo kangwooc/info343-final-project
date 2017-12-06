@@ -18,25 +18,24 @@ export default class SignUpView extends React.Component {
     handleSubmit(evt){
         evt.preventDefault();   
         console.log(
-            "creatting user account with credentials: %s, %s,%s",
+            "Creating user account with credentials: %s, %s,%s",
             this.state.displayName,
             this.state.email,
             this.state.password
         );
 
-        firebase.auth()
-        .createUserWithEmailAndPassword(this.state.email,this.state.password)
-        .then(function(user) {
-            if (user) { this.setState({authenticated:true}) } 
-            return user;
-        }.bind(this))
-        .then(user => user.updateProfile({
-            lastTestTaken: null
-        }))
-        .catch(function(error) {
-            console.log(error.code + ": " + error.message );
-            this.setState({errorMessage: error.message})
-        }.bind(this));
+        firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+            .then(function(user) {
+                if (user) { this.setState({authenticated:true}) } 
+                return user;
+            }.bind(this))
+            .then(user => user.updateProfile({
+                lastTestTaken: null
+            }))
+            .catch(function(error) {
+                console.log(error.code + ": " + error.message );
+                this.setState({errorMessage: error.message})
+            }.bind(this));
     }
 
     render() {
@@ -47,9 +46,10 @@ export default class SignUpView extends React.Component {
         return (
             <div className="container">
                 <h1>Sign Up</h1>
-                {   this.state.errorMessage &&
-                    <p className="alert alert-danger">{this.state.errorMessage}</p>    
-                }
+                    
+                    {   this.state.errorMessage &&
+                        <p className="alert alert-danger">{this.state.errorMessage}</p>    
+                    }
                 
                     <form>                                                                                                 
                         <div className="form-group">

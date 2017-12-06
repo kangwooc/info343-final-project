@@ -57,13 +57,12 @@ export default class SignInView extends React.Component {
                         onInput={evt => this.setState({password: evt.target.value})}/>
                     </div>
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>>
+                        <button type="submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>
                             Sign In
                         </button>
                     </div>
                 </form>
                  <p>Don't yet have an account? <Link to={constants.routes.signup}>Sign Up!</Link></p>
-                
             </div>
         );
     }
