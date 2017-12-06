@@ -14,9 +14,11 @@ class App extends Component {
 
   render() {
     let scoreRef = firebase.database().ref("scores");
+    let usersRef = firebase.database().ref("displayName");
+
     return (
       <div className="App">
-        <QuizPageView scoreRef = {scoreRef}/>
+        <QuizPageView scoreRef = {scoreRef} usersRef = {usersRef}/>
       </div>
     );
   }

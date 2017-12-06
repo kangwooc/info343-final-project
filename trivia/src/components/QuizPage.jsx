@@ -9,35 +9,37 @@ export default class QuizPageView extends Component {
         super(props);
         this.state = {
             checked: false,
-            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple",
+            API_KEY: "https://opentdb.com/api.php?amount=3&type=multiple",
             token: undefined,
             QNAs: {},
             score: 0,
-            time: 1000
+            problemNum: 1,
+            // time: 1000,
+            selectedOption: undefined
+            //displayName, finalScore, firebase database
         };
-        
+        this.getOption = this.getOption.bind(this);   
     }
 
-    componentDidMountTimer() {
-        setInterval(
-            function() {
-                this.setState({time: this.state.time - 100 });       
-            }.bind(this)
-            , 100);
-            if (this.state.time === 0) {
-                //direct to next question
+    // componentDidMountTimer() {
+    //     setInterval(
+    //         function() {
+    //             this.setState({time: this.state.time - 100 });       
+    //         }.bind(this)
+    //         , 100);
+    //         if (this.state.time === 0) {
+    //             //direct to next question
+    //             this.setState({time: 1000});
                 
-                this.setState({time: 1000});
-                
-            }
-        // a question has been answered
-        //this.setState({time: 1000});
-        return(
-            <div>
-                {this.state.time}
-            </div>
-        );
-    }
+    //         }
+    //     // a question has been answered
+    //     //this.setState({time: 1000});
+    //     return(
+    //         <div>
+    //             {this.state.time}
+    //         </div>
+    //     );
+    // }
 
     componentWillMount(){
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
@@ -96,18 +98,29 @@ export default class QuizPageView extends Component {
     handleAnswer(evt, score){
         evt.preventDefault();
         let h = this.state.problemNum;
-        h++;
-        this.setState({
-            problemNum: h
-        })
-        score++; 
-        this.setState({score: score});
-        console.log("handleAnswer prop: " + this.state.score);
+        if(h<=3){
+            if(this.state.selectedOption === this.state.QNAs[h].answer){
+                score++; 
+            }
+            h++;
+            this.setState({
+                problemNum: h
+            })
+            this.setState({score: score, selectedOption:undefined});
+        }
         
+        console.log("total score: "+this.state.score);
         
+        console.log("this state selectedOption is: " +  this.state.selectedOption);
+        
+        console.log("handleAnswer state: " + this.state.score);    
     }
 
-    
+    getOption(data){
+        console.log(data);
+        this.setState({selectedOption:data});
+        //this.setState({selectedOption:data});
+    }
 
     render(){            
         return(
@@ -115,9 +128,9 @@ export default class QuizPageView extends Component {
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt, this.state.score)}>
-                    <Quiz problem = {this.state.QNAs[this.state.problemNum]} score={this.state.score} />
-                    {console.log(this.state.score)}
-                    <button className="btn btn-primary" type="submit">Next -></button>
+                    
+                    <Quiz problem = {this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption = {this.getOption} mySelectedOption = {this.state.selectedOption} />
+                    {this.state.selectedOption === undefined ? undefined :<button className="btn btn-primary" type="submit" >Next -></button> }
                 </form>
             </div>
         );
@@ -134,22 +147,25 @@ class Quiz extends Component {
 
     handleOptionChange(changeEvent) {
         this.setState({
-          selectedOption: changeEvent.target.value,
-          currentScore: this.props.score
+          selectedOption: changeEvent.target.value
         });
+        let value = changeEvent.target.value;
+        this.sendOption(value);
     }
 
-
+    sendOption(selectedOption){
+        console.log("selectedOption: " + selectedOption);
+        this.props.sendOption(selectedOption);
+    }
 
     render(){
-        console.log(this.props.problem);
-
+        
         return (
             <div>
                 {console.log("Quiz current score state: " + this.state.currentScore)}
                 {this.props.problem !== undefined ?
                 <div>
-                    <div id = "score">{this.props.score} of {this.props.problem.number-1}</div>
+                    <div id = "score">{this.props.score} out of {this.props.problem.number}</div>
                     <div id = "question" className = "alert alert-success">{this.props.problem.number}.{" "+this.props.problem.question}</div>
                         <form>
                             <div className = "radio">
@@ -185,7 +201,6 @@ class Quiz extends Component {
                             </label>
                             </div>
                         </form>
-                    
                 </div>
                 : undefined}
             </div>
