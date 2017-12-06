@@ -9,7 +9,7 @@ export default class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayName: ""
+            displayName: undefined
         }
     }
 
@@ -17,14 +17,15 @@ export default class MainPage extends Component {
         this.authUnsub = firebase.auth().onAuthStateChanged(user => {
           this.setState({
               displayName:user.displayName,
-              authenticated:true
+              authenticated:this.props.authenticated
           });
         });
+       
       }
     
-      componentWillUnmount() {
+    componentWillUnmount() {
         this.authUnsub();
-      }
+    }
 
     quiz() {
         this.setState({taken: true});
@@ -32,14 +33,18 @@ export default class MainPage extends Component {
     }
 
     render() {
-        
+        console.log(this.state.displayName);
+        console.log("Authenticated in mainpage: "+ this.state.authenticated);
+        if(this.props.authenticated!==true){
+            return (<Redirect to={constants.routes.signin} />)
+        }
         let taken;
         var user = firebase.auth().currentUser;
         var dateobj= new Date() ;
         var month = dateobj.getMonth() + 1;
         var day = dateobj.getDate() ;
         var year = dateobj.getFullYear();
-        // var date = (user.month === month && user.day === day && user.year === year);
+        //var date = (user.month === month && user.day === day && user.year === year);
         // if(date) {
         //     taken = (
         //         <div className="container">
@@ -56,10 +61,7 @@ export default class MainPage extends Component {
         
         return (
             <div className="Main text-center">
-                <header className="jumbotron bg-dark">
-                    <h1 className="display-3 text-light">Trivial</h1>
-                </header>
-
+                
                 <LeaderBoard  />
                  
                 {taken}

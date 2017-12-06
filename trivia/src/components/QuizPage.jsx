@@ -43,44 +43,48 @@ export default class QuizPageView extends Component {
 
     componentWillMount(){
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
-            this.setState({currentUser:user})
+            this.setState(
+                {
+                    displayName:user.displayName,
+                    authenticated:true
+                })
         });
     }
 
     componentDidMount(){
         fetch(this.state.API_KEY)
-        .then(response => response.json())
-        .then((data)=>{
-            let myQNAs ={};
-            var h = 1;
-            data.results.forEach(function(elem){
-                let QNA = {
-                    number:h,
-                    question:"",
-                    answers:[],
-                    answer:""
-                };
-                let q = elem.question.replace(/&quot;/g,'"').replace(/&#039;/g,"'");
-                var anss = [];
-                for(let i=0;i<elem.incorrect_answers.length;i++){
-                    anss.push(elem.incorrect_answers[i].replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&scaron;/g,"š"));
+            .then(response => response.json())
+            .then((data)=>{
+                let myQNAs ={};
+                var h = 1;
+                data.results.forEach(function(elem){
+                    let QNA = {
+                        number:h,
+                        question:"",
+                        answers:[],
+                        answer:""
+                    };
+                    let q = elem.question.replace(/&quot;/g,'"').replace(/&#039;/g,"'");
+                    var anss = [];
+                    for(let i=0;i<elem.incorrect_answers.length;i++){
+                        anss.push(elem.incorrect_answers[i].replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&scaron;/g,"š"));
+                    }
+                    var ans = elem.correct_answer.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&scaron;/g,"š");
+                    QNA.question = q;
+                    QNA.answers = anss;
+                    QNA.answer = ans;
+                    QNA.answers.push(QNA.answer);
+                    myQNAs[h] = QNA;
+                    h++;
+                })
+                for(let i = 1; i <= data.results.length; i++){
+                    this.shuffleArray(myQNAs[i].answers);
                 }
-                var ans = elem.correct_answer.replace(/&quot;/g,'"').replace(/&#039;/g,"'").replace(/&scaron;/g,"š");
-                QNA.question = q;
-                QNA.answers = anss;
-                QNA.answer = ans;
-                QNA.answers.push(QNA.answer);
-                myQNAs[h] = QNA;
-                h++;
+                this.setState({QNAs : myQNAs});
             })
-            for(let i = 1; i <= data.results.length; i++){
-                this.shuffleArray(myQNAs[i].answers);
-            }
-            this.setState({QNAs : myQNAs});
-        })
-        .catch(err => console.error(err));    
+            .catch(err => console.error(err));    
     }
-
+    
     componentWillUnMount(){
         this.authUnsub();
         // setUserProperty(score and date)

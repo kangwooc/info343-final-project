@@ -16,8 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       authenicated: false,
-      firstName:"",
-      lastName:""
+      displayName: undefined
     };
   }
 
@@ -35,7 +34,8 @@ class App extends Component {
     this.setState({working: true, errorMessge: undefined});
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => user.updateProfile({
-          displayName: this.state.displayName
+          displayName: this.state.displayName,
+          authenicated: true
         }))
       .catch(err => this.setState({errorMessage: err.message}))
       .then(() => this.setState({working: false}));
@@ -46,24 +46,23 @@ class App extends Component {
     firebase.auth().signOut()
       .catch(err => this.setState({errorMessage: err.message}))
       .then(() => this.setState({working: false, authenicated: false})); 
-      this.props.history.replace("/");
   }
 
   handleSignIn() {
     this.setState({working: true, errorMessage: undefined});
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch(err => this.setState({errorMessage: err.message}))
+      .catch(err => this.setState({errorMessage: err.message, authenicated:true}))
       .then(() => this.setState({working: false}));
   }
 
   render() {
-    if (!this.state.authenicated) {
-      console.log("not authenicated");
-    }
 
     let scoreRef = firebase.database().ref("totalscore");
     let displayNameRef = firebase.database().ref("displayname");
     let dateRef = firebase.database().ref("date");
+
+    console.log(this.state.authenicated);
+    console.log("Authenticated in app.jsx: "+ this.state.authenicated);
     return (
       <div className="App">
         <nav className="navbar navbar-dark bg-dark">
@@ -89,8 +88,8 @@ class App extends Component {
           <Switch>
               <Route exact path={constants.routes.signin} component={SignInView} />
               <Route path={constants.routes.signup} component={SignUpView} />    
-              <Route path={constants.routes.mainpage} component={MainPageView} />
-              <Route path = {constants.routes.quizpage} component = {QuizPageView}/>
+              <Route path={constants.routes.mainpage} component={MainPageView} authenicated = {this.state.authenicated}/>{console.log(this.state.authenicated)}
+              <Route path = {constants.routes.quizpage} component = {QuizPageView} dateRef = {dateRef} scoreRef = {scoreRef} displayNameRef = {displayNameRef}/>
           </Switch>
           </Router>
         </div>
@@ -98,7 +97,6 @@ class App extends Component {
           <section>
             <footer className="bg-dark text-white">
               <p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
-              <p><a href="#">Back to Top &uarr;</a></p> 
             </footer>
           </section>
 

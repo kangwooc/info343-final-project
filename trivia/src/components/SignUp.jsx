@@ -30,7 +30,7 @@ export default class SignUpView extends React.Component {
                 return user;
             }.bind(this))
             .then(user => user.updateProfile({
-                lastTestTaken: null
+                lastTestTaken: undefined
             }))
             .catch(function(error) {
                 console.log(error.code + ": " + error.message );
@@ -39,6 +39,7 @@ export default class SignUpView extends React.Component {
     }
 
     render() {
+        console.log("Authenticated in signin: "+ this.state.authenticated);
         if (this.state.authenticated) {
             return (<Redirect to={constants.routes.mainpage} />)
         }
