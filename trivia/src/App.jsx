@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LeaderBoard from './components/LeaderBoard';
+import MainPage from './components/MainPage';
 import './App.css';
 
 class App extends Component {
@@ -8,9 +8,12 @@ class App extends Component {
     return (
       <div className="App">
         <nav className="navbar navbar-dark bg-dark">
-        <span className="navbar-brand mb-0 h1">Trivial</span>
+        <span className="navbar-brand mb-0 h1"><font color="orange">TRIVIAL</font></span>
       </nav>
-        <LeaderBoard  />
+        <MainPage  />
+        <div class="footer">
+          <p></p>
+        </div>
       </div>
     );
   }

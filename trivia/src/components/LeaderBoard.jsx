@@ -44,7 +44,7 @@ export default class LeaderBoard extends Component {
                     // data - array of player scores
                     data: scores,
                     // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
-                    // backgroundColor: colors
+                    backgroundColor: "orange"
                     }
                 ]
             }
@@ -63,7 +63,7 @@ export default class LeaderBoard extends Component {
                             //maintainAspectRatio: true,
                             title:{
                                 display: this.props.displayTitle,
-                                text:'Leaderboard',
+                                text:"Today's Trivia Leaderboard",
                                 fontSize: 25
                             },
                             legend:{
