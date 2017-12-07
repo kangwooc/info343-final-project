@@ -8,15 +8,14 @@ export default class SignUpView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayName:"",
+            displayName: "",
             email: "",
-            password: "",
-            authenticated:false 
+            password: ""
         }
-    }    
+    }
 
-    handleSubmit(evt){
-        evt.preventDefault();   
+    handleSubmit(evt) {
+        evt.preventDefault();
         console.log(
             "Creating user account with credentials: %s, %s,%s",
             this.state.displayName,
@@ -24,68 +23,81 @@ export default class SignUpView extends React.Component {
             this.state.password
         );
 
-        firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
-            .then(function(user) {
-                if (user) { this.setState({authenticated:true}) } 
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(function (user) {
+                if (user) { this.setState({ authenticated: true }) }
                 return user;
             }.bind(this))
             .then(user => user.updateProfile({
-                lastTestTaken: undefined
+                lastTestTaken: undefined,
+                displayName: this.state.displayName
             }))
-            .catch(function(error) {
-                console.log(error.code + ": " + error.message );
-                this.setState({errorMessage: error.message})
+            .catch(function (error) {
+                console.log(error.code + ": " + error.message);
+                this.setState({ errorMessage: error.message })
             }.bind(this));
+            
+            if (this.state.authenticated) {
+                return (<Redirect to={constants.routes.mainpage} />)
+            }
     }
 
     render() {
-        console.log("Authenticated in signin: "+ this.state.authenticated);
-        if (this.state.authenticated) {
-            return (<Redirect to={constants.routes.mainpage} />)
-        }
+        console.log("Authenticated in signin: " + this.state.authenticated);
+        
 
         return (
             <div className="container">
                 <h1>Sign Up</h1>
-                    
-                    {   this.state.errorMessage &&
-                        <p className="alert alert-danger">{this.state.errorMessage}</p>    
-                    }
-                
-                    <form>                                                                                                 
-                        <div className="form-group">
-                            <label htmlFor="DisplayName">Display Name</label>
-                            <input id= "displayName" type = "text" className="form-control"
-                                placeholder="Type your DisplayName"
+                {
+                    this.state.errorMessage &&
+                    <p className="alert alert-danger">{this.state.errorMessage}</p>
+                }
+                <form>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4">
+                            <label htmlFor="DisplayName">Display name:</label>
+                            <input id="displayName" type="text" className="form-control"
+                                placeholder="Type your display name/ nickname"
                                 value={this.state.displayName}
-                                onInput={evt => this.setState({displayName: evt.target.value})}
+                                onInput={evt => this.setState({ displayName: evt.target.value })}
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="Email">Email</label>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4">
+                            <label htmlFor="Email">Email:</label>
                             <input id="email" type="email" className="form-control"
                                 placeholder="Enter your Email"
                                 value={this.state.email}
-                                onInput={evt => this.setState({email: evt.target.value})}
+                                onInput={evt => this.setState({ email: evt.target.value })}
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="Password">Password</label>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4">
+                            <label htmlFor="Password">Password:</label>
                             <input id="passWord" type="password" className="form-control"
-                            placeholder="Enter your password"
-                            value={this.state.password}
-                            onInput={evt => this.setState({password: evt.target.value})}
+                                placeholder="Enter your password"
+                                value={this.state.password}
+                                onInput={evt => this.setState({ password: evt.target.value })}
                             />
                         </div>
-                        <div className="form-group">
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4">
                             <button type="button" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>
-                                 SignUp!
-                            </button>
+                                Sign Up!
+                                </button>
                         </div>
-                    </form>
-                    <p>Already have an account? <Link to={constants.routes.signin}>Sign In!</Link></p>
-              </div>
+                    </div>
+                </form>
+                <p>Already have an account? <Link to={constants.routes.signin}>Sign In!</Link></p>
+            </div>
         );
     }
 }
-      

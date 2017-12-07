@@ -14,7 +14,6 @@ export default class QuizPageView extends Component {
             QNAs: {},
             score: 0,
             problemNum: 1,
-            // time: 1000,
             selectedOption: undefined
             //displayName, finalScore, firebase database, date
         };
@@ -112,7 +111,7 @@ export default class QuizPageView extends Component {
             })
             this.setState({score: score, selectedOption:undefined});
         }
-        console.log("total score: "+this.state.score);
+        console.log("total score: " + this.state.score);
         console.log("this state selectedOption is: " +  this.state.selectedOption);
         console.log("handleAnswer state: " + this.state.score);    
     }
