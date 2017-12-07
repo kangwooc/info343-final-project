@@ -5,8 +5,8 @@ import firebase from "firebase/app";
 import 'firebase/auth';
 import "firebase/database";
 
-const names = ["Eight", "Three", "Six", "Four", "Nine", "Six", "Eight", "Ten", "Six", "Three"];
-const scores = [8, 3, 6, 4, 9, 6, 8, 10, 6, 3];
+// const names = ["Eight", "Three", "Six", "Four", "Nine", "Six", "Eight", "Ten", "Six", "Three"];
+// const scores = [8, 3, 6, 4, 9, 6, 8, 10, 6, 3];
 
 export default class LeaderBoard extends Component {
     constructor(props){
@@ -40,23 +40,34 @@ export default class LeaderBoard extends Component {
         var month = dateobj.getMonth() + 1;
         var day = dateobj.getDate() ;
         var year = dateobj.getFullYear();
-        // let dataRef = firebase.database().ref(month+"-"+day+"-"+year +'/').on();
-        // dataRef.on()
-        this.setState({
-            chartData: {
-                // labels - array that houses player names
-                labels: names,
-                datasets: [
-                    {
-                    label: 'Score',
-                    // data - array of player scores
-                    data: scores,
-                    // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
-                    backgroundColor: "orange"
-                    }
-                ]
-            }
+        var names= [];
+        var scores = [];
+        let dataRef = firebase.database().ref(month+"-"+day+"-"+year).on("value", (snapshot)=>{
+            console.log(snapshot.val());
+            snapshot.forEach(function(childSnapshot){
+                console.log(childSnapshot.val());
+                names.push(childSnapshot.val().displayName);
+                scores.push(childSnapshot.val().score);
+            })
+            this.setState({
+                chartData: {
+                    // labels - array that houses player names
+                    labels: names,
+                    datasets: [
+                        {
+                        label: 'Score',
+                        // data - array of player scores
+                        data: scores,
+                        // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
+                        backgroundColor: "orange"
+                        }
+                    ]
+                }
+            });
         });
+        console.log("array of display name: "+names);
+        console.log("array of scores = "+scores);
+        
     }
 
     render(){

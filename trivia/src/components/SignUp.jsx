@@ -26,7 +26,7 @@ export default class SignUpView extends React.Component {
 
     handleSubmit(evt){
         evt.preventDefault();
-
+        console.log(this.state.displayName);  
         if (!this.state.displayName){
             this.setState({errorMessage: "please enter a display name"});
         } else {
@@ -36,7 +36,8 @@ export default class SignUpView extends React.Component {
                 displayName: this.state.displayName
             }))
             .catch(err => this.setState({errorMessage: err.message}))
-            .then(() => this.setState({working: false})); 
+            .then(() => this.setState({working: false}));   
+            
             firebase.auth().onAuthStateChanged(user => {
                 if(user) {
                     this.props.history.push("mainpage");  

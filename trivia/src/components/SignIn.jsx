@@ -29,15 +29,15 @@ export default class SignInView extends React.Component {
         evt.preventDefault();
         this.setState({working: true, errorMessage: undefined});
         firebase.auth()
-        .signInWithEmailAndPassword(this.state.email,this.state.password)
-        .catch(err => this.setState({errorMessage: err.message}))
-        .then(() => this.setState({working: false}));
+            .signInWithEmailAndPassword(this.state.email,this.state.password)
+            .catch(err => this.setState({errorMessage: err.message}))
+            .then(() => this.setState({working: false}));
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                this.props.history.push("resultpage");            
+                this.props.history.push("mainpage");            
             }
-        this.setState({email: "", password: ""});
         });
+        this.setState({email: "", password: ""});
     }    
 
     render() {

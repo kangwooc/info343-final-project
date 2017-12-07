@@ -12,11 +12,11 @@ body {
   text-align: left;
 }
 
-.signin, .signup {
+.signin, .signup, .result {
   text-align: center;
 }
 
-.nextbutton {
+.nextbutton, .signout {
   float: right;
 }
 
