@@ -47,8 +47,9 @@ export default class SignUpView extends React.Component {
         
 
         return (
-            <div className="container">
-                <h1>Sign Up</h1>
+            <div className="container signup">
+                <h1><font color="orange">Welcome to Trivial!</font></h1>
+                <h3>Please sign up</h3>
                 {
                     this.state.errorMessage &&
                     <p className="alert alert-danger">{this.state.errorMessage}</p>
@@ -90,7 +91,7 @@ export default class SignUpView extends React.Component {
                     <div className="row">
                         <div className="col-md-4"></div>
                         <div className="form-group col-md-4">
-                            <button type="button" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>
+                            <button type="button" className="btn btn-info" onClick={e => this.handleSubmit(e)}>
                                 Sign Up!
                                 </button>
                         </div>

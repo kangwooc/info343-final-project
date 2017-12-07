@@ -34,9 +34,10 @@ export default class SignInView extends React.Component {
         //     return (<Redirect to={constants.routes.mainpage} />);
         // }
         return (
-            <div className="container">
+            <div className="container signin">
                 <header className = "">
-                    <h1>Sign In</h1>
+                    <h1><font color="orange">Welcome to Trivial!</font></h1>
+                    <h3>Please sign in</h3>
                 </header>
                 {
                     this.state.errorMessage &&
@@ -45,7 +46,7 @@ export default class SignInView extends React.Component {
                 <form onSubmit={evt => this.handleSubmit(evt)}>
                     <div className="row">
                         <div className="col-md-4"></div>
-                        <div className="form-group col-md-4">
+                        <div className="form-group col-md-4 emailentry">
                             <label htmlFor="email">Email:</label>
                             <input id="email" type="email" className="form-control"
                                 placeholder="enter your email address"
@@ -66,7 +67,7 @@ export default class SignInView extends React.Component {
                     <div className="row">
                         <div className="col-md-4"></div>
                         <div className="form-group col-md-4 ">
-                            <button type="submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Sign In</button>
+                            <button type="submit" className="btn btn-info" onClick={e => this.handleSubmit(e)}>Sign In</button>
                         </div>
                     </div>
                 </form>
