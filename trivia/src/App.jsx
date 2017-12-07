@@ -83,8 +83,8 @@ class App extends Component {
         </div>
         <div className="footer">
           <section>
-            <footer className="bg-dark text-white">
-              <p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
+            <footer>
+              <p></p>
             </footer>
           </section>
 

@@ -147,12 +147,12 @@ export default class QuizPageView extends Component {
 
     render(){            
         return(
-            <div id = "quiz">
+            <div id = "quiz container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt, this.state.score)}>
                     <Quiz problem = {this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption = {this.getOption} mySelectedOption = {this.state.selectedOption} />
-                    {this.state.selectedOption === undefined ? undefined :<button className="btn btn-primary" type="submit" >Next -></button> }
+                    {this.state.selectedOption === undefined ? undefined :<button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button> }
                 </form>
             </div>
         );
@@ -187,8 +187,9 @@ class Quiz extends Component {
                 {this.props.problem !== undefined ?
                 <div>
                     <div id = "score">{this.props.score} out of {this.props.problem.number}</div>
-                    <div id = "question" className = "alert alert-success">{this.props.problem.number}.{" "+this.props.problem.question}</div>
+                    <div id = "question" className = "alert alert-dark">{this.props.problem.number}.{" "+this.props.problem.question}</div>
                         <form>
+
                             <div className = "radio">
                             <label>
                                 <input type = "radio" value = {this.props.problem.answers[0]} 
@@ -197,6 +198,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[0]}
                             </label>
                             </div>
+
                             <div className = "radio">
                             <label>
                                 <input type = "radio" value = {this.props.problem.answers[1]}
@@ -205,6 +207,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[1]}
                             </label>
                             </div>
+
                             <div className="radio">
                             <label>
                                 <input type="radio" value = {this.props.problem.answers[2]}
@@ -213,6 +216,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[2]}
                             </label>
                             </div>
+
                             <div className="radio">
                             <label>
                                 <input type="radio" value = {this.props.problem.answers[3]}
@@ -221,6 +225,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[3]}
                             </label>
                             </div>
+
                         </form>
                 </div>
                 : undefined}
