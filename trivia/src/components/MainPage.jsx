@@ -73,14 +73,11 @@ export default class MainPageView extends Component {
         
         return (
             <div className="Main text-center">
-                
                 <LeaderBoard  />
-                 
                 {taken}
-
                 <p>
-                <button className="btn btn-danger signout" onClick={()=>this.handleSignOut()}> Sign Out</button>
-              </p>
+                    <button className="btn btn-danger signout" onClick={()=>this.handleSignOut()}> Sign Out</button>
+                </p>
             </div>
         );
     }

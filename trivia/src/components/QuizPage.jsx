@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import firebase from 'firebase/app';
+import constants from './Constants';
 import 'firebase/auth';
 import 'firebase/database';
+import { Redirect } from 'react-router-dom';
 
 export default class QuizPageView extends Component {
 
@@ -17,6 +19,7 @@ export default class QuizPageView extends Component {
             selectedOption: undefined
         };
         this.getOption = this.getOption.bind(this);
+        this.sendScore = this.sendScore.bind(this);
     }
 
     // componentDidMountTimer() {
@@ -100,17 +103,19 @@ export default class QuizPageView extends Component {
     handleAnswer(evt) {
         evt.preventDefault();
         let h = this.state.problemNum;
+        var myScore = this.state.score;
         console.log("h in handleAnswer = " + h);
         console.log("user displayname = "+this.state.displayName);
         console.log("Quiz current score state: " + this.state.score);
         if(h<10){
             if(this.state.selectedOption === this.state.QNAs[h].answer){
-                var myScore = this.state.score;
                 myScore++;
+                console.log("113 line score: " + this.state.score);
                 console.log(myScore);
-                this.setState({score:myScore});
+                this.state.score = myScore;
+                console.log("116 line score: " + this.state.score);
             }
-            console.log("113 line score: " + this.state.score);
+            console.log("118 line score: " + this.state.score);
             h++;
             this.setState({
                 problemNum: h
@@ -118,18 +123,12 @@ export default class QuizPageView extends Component {
             this.setState({selectedOption: undefined });
         } else if (h === 10) {
             if(this.state.selectedOption === this.state.QNAs[h].answer){
-                var myScore = this.state.score;
                 myScore++;
-                this.setState({score:myScore});
+                this.state.score = myScore;
             }
-            console.log(this.state.score);
-            
-            this.authUnsub = firebase.auth().onAuthStateChanged((user) => {
-                this.setState(
-                    {
-                        score: this.state.score
-                    })
-            });
+            console.log("finish the score = "+this.state.score);
+            var finalScore = this.state.score;
+            this.sendScore(finalScore);
 
             let userDataRef = firebase.database().ref("userdata")
             var dateobj = new Date();
@@ -150,8 +149,9 @@ export default class QuizPageView extends Component {
             let newPostKey = userDataRef.child('posts').push().key;
             var updates = {};
             updates[month + "-" + day + "-" + year + '/' + this.state.displayName] = userData;
-            this.props.history.push("resultpage");
+            this.props.history.push("/resultpage");
             return firebase.database().ref().update(updates);
+           
         }
         console.log("total score: " + this.state.score);
         console.log("this state selectedOption is: " + this.state.selectedOption);
@@ -164,15 +164,18 @@ export default class QuizPageView extends Component {
         //this.setState({selectedOption:data});
     }
 
-
-  
+    sendScore(data){
+        console.log("finish the score = " + data);
+        this.props.sendScore(data);
+    }
+    
     render() {
         return (
             <div id="quiz" className = "container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit={(evt) => this.handleAnswer(evt)}>
-                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption} />
+                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption}/>
                     {this.state.selectedOption === undefined ? undefined : <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>}
                 </form>
             </div>

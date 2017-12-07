@@ -55,19 +55,18 @@ export default class LeaderBoard extends Component {
                     labels: names,
                     datasets: [
                         {
-                        label: 'Score',
-                        // data - array of player scores
-                        data: scores,
-                        // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
-                        backgroundColor: "orange"
+                            label: 'Score',
+                            // data - array of player scores
+                            data: scores,
+                            // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
+                            backgroundColor: "orange"
                         }
                     ]
                 }
             });
         });
-        console.log("array of display name: "+names);
-        console.log("array of scores = "+scores);
-        
+        console.log("array of display name: "+ names);
+        console.log("array of scores = " + scores);
     }
 
     render(){

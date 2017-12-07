@@ -5,7 +5,7 @@ import 'firebase/auth';
 import "firebase/database";
 
 export default class ResultPage extends Component {
-x
+
     constructor(props){
         super(props);
         this.state = {
@@ -20,17 +20,7 @@ x
     }
 
     componentWillMount(){
-        this.getScore();
-    }
-
-    getScore(){
-        var dateobj= new Date() ;
-        var month = dateobj.getMonth() + 1;
-        var day = dateobj.getDate() ;
-        var year = dateobj.getFullYear();
-        console.log(console.log(this.state.displayName));
-        // let scoreRef = firebase.database().ref(month+"-"+day+"-"+year).on("value", (snapshot)=>{
-        // });
+        this.setState({correct:this.props.score});
     }
 
     clickHome() {
@@ -75,11 +65,7 @@ x
                         <h4>you answered {this.state.correct} out of 10 questions correctly!</h4>
                         <img src={constants.routes.needtoWorkImg} alt = "need to study" />
                         <h4>Come back tomorrow and try your luck again.</h4>
-                        <button
-                            className="btn btn-info" 
-                            onClick={() => this.clickHome()}>
-                            Home
-                        </button>
+                        <button className="btn btn-info" onClick={() => this.clickHome()}>Home</button>
                     </div>
                 </div>
                 );

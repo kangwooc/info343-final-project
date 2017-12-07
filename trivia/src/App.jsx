@@ -17,8 +17,10 @@ class App extends Component {
     super(props);
     this.state = {
       authenicated: false,
-      displayName: undefined
+      displayName: undefined,
+      score:0
     };
+    this.getScore = this.getScore.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +52,11 @@ class App extends Component {
       .then(() => this.setState({ working: false }));
   }
 
+  getScore(data){
+    console.log(data);
+    this.setState({score:data});
+  }
+
   render() {
 
     console.log(this.state.authenicated);
@@ -76,9 +83,14 @@ class App extends Component {
             <Switch>
               <Route exact path={constants.routes.signin} component={SignInView} />
               <Route path={constants.routes.signup} component={SignUpView} />
-              <Route path={constants.routes.mainpage} component={MainPageView} />{console.log(this.state.authenicated)}
-              <Route path={constants.routes.quizpage} component={QuizPageView}  />
-              <Route path = {constants.routes.resultpage} component={ResultPageView} />
+              <Route path={constants.routes.mainpage} component={MainPageView} />
+              <Route path={constants.routes.quizpage} render={(props) => (
+                <QuizPageView {...props} score = {this.state.score} sendScore={this.getScore} />
+              )}
+              />
+              <Route path = {constants.routes.resultpage} render={(props)=>(
+                <ResultPageView {...props} score = {this.state.score} />
+              )}/>
             </Switch>
           </Router>
         </div>

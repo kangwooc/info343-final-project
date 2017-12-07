@@ -37,7 +37,6 @@ export default class SignInView extends React.Component {
                 this.props.history.push("mainpage");            
             }
         });
-        this.setState({email: "", password: ""});
     }    
 
     render() {
