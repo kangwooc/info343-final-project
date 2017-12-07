@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth";
+import MainPageView from './MainPage';
 
 export default class SignUpView extends React.Component {
     constructor(props) {
@@ -26,7 +27,14 @@ export default class SignUpView extends React.Component {
 
     handleSubmit(evt){
         evt.preventDefault();
-        console.log(this.state.displayName);  
+        console.log(this.state.displayName);
+        // handle unique displayName
+        // let usersRef = firebase.database().ref();
+        // usersRef.orderBy("uid").startAt(uid).endAt(uid).on("value", function(snapshot) {
+        //     var user = snapshot.val();
+        //     childSnapshot.val().displayName
+        //   });
+
         if (!this.state.displayName){
             this.setState({errorMessage: "please enter a display name"});
         } else {
@@ -49,7 +57,7 @@ export default class SignUpView extends React.Component {
 
     render() {
 
-        return (
+        return (this.state.authenticated ? <MainPageView /> :
             <div className="container signup">
                 <h1><font color="orange">Welcome to Trivial!</font></h1>
                 <h3>Please sign up</h3>
