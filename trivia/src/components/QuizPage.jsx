@@ -9,7 +9,7 @@ export default class QuizPageView extends Component {
         super(props);
         this.state = {
             checked: false,
-            API_KEY: "https://opentdb.com/api.php?amount=3&type=multiple",
+            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple",
             token: undefined,
             QNAs: {},
             score: 0,
@@ -103,7 +103,7 @@ export default class QuizPageView extends Component {
         console.log("h in handleAnswer = " + h);
         console.log("user displayname = "+this.state.displayName);
         console.log("Quiz current score state: " + this.state.score);
-        if(h<3){
+        if(h<10){
             if(this.state.selectedOption === this.state.QNAs[h].answer){
                 var myScore = this.state.score;
                 myScore++;
@@ -116,12 +116,21 @@ export default class QuizPageView extends Component {
                 problemNum: h
             })
             this.setState({selectedOption: undefined });
-        } else if (h === 3) {
+        } else if (h === 10) {
             if(this.state.selectedOption === this.state.QNAs[h].answer){
                 var myScore = this.state.score;
                 myScore++;
                 this.setState({score:myScore});
             }
+            console.log(this.state.score);
+            
+            this.authUnsub = firebase.auth().onAuthStateChanged((user) => {
+                this.setState(
+                    {
+                        score: this.state.score
+                    })
+            });
+
             let userDataRef = firebase.database().ref("userdata")
             var dateobj = new Date();
             var month = dateobj.getMonth() + 1;
