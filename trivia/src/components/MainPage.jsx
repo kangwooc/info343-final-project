@@ -5,8 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import LeaderBoard from './LeaderBoard';
-
-export default class MainPage extends Component {
+export default class MainPageView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +20,7 @@ export default class MainPage extends Component {
               authenticated: this.props.authenticated
           });
         });
-    }
+      }
     
     componentWillUnmount() {
         this.authUnsub();
@@ -32,20 +31,32 @@ export default class MainPage extends Component {
         firebase.auth().signOut()
           .catch(err => this.setState({errorMessage: err.message}))
           .then(() => this.setState({working: false, authenicated: false}));
-          this.props.history.replace("/"); 
+          //this.props.history.replace("/"); 
     }
 
     quiz() {
         // this.setState({taken: true});
-        //direct to quiz page
+        // direct to quiz page
     }
 
     render() {
-        console.log(this.state.displayName);
-        console.log("Authenticated in mainpage: "+ this.state.authenticated);
+        let userDataRef = firebase.database().ref("userdata");
+        console.log(userDataRef);
+        userDataRef.once("value", snapshot =>
+        snapshot.forEach(taskSnapshot => {
+            if (taskSnapshot.val().done) {
+                console.log(this.props.tasksRef.child(taskSnapshot.key));
+            }
+    }));
+    
+        //var ref = firebase.database().ref().child();
+        // ref.on("value", function(snapshot) {
+        //     console.log(snapshot.val());
+        //  }, function (error) {
+        //     console.log("Error: " + error.code);
+        //  });
 
         let taken;
-        var user = firebase.auth().currentUser;
         var dateobj= new Date() ;
         var month = dateobj.getMonth() + 1;
         var day = dateobj.getDate() ;
@@ -66,14 +77,14 @@ export default class MainPage extends Component {
         // }
         
         return (
-            <div className="container">
+            <div className="Main text-center">
                 
                 <LeaderBoard  />
                  
                 {taken}
 
                 <p>
-                <button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button>
+                <button className="btn btn-danger signout" onClick={()=>this.handleSignOut()}> Sign Out</button>
               </p>
             </div>
         );

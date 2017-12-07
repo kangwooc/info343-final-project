@@ -18,13 +18,13 @@ export default class ResultPage extends Component {
     render() {
         return (
             <div>
-                <div className="container text-center">
-                    <h1 className="display-3 text-dark">
-                        Results
-                    </h1>
-                    <h3>You got {this.state.correct} out of 10</h3>
+                <div className="container result">
+                    <h1>Congratulations!</h1>
+                    <h4>You answered {this.state.correct} out of 10 questions correctly!</h4>
+                    <img src="../img/goodjob.jpg"/>
+                    <h4>Come back tomorrow and try your luck again.</h4>
                     <button
-                        className="btn btn-primary" 
+                        className="btn btn-info" 
                         onClick={() => this.home()}>
                         Home
                     </button>

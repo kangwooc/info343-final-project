@@ -6,7 +6,7 @@ import SignInView from './components/SignIn';
 import constants from './components/Constants';
 import MainPageView from './components/MainPage';
 import QuizPageView from './components/QuizPage';
-import ResultPageView from "./components/ResultPage";
+import ResultPageView from './components/ResultPage';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
