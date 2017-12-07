@@ -5,12 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import LeaderBoard from './LeaderBoard';
-<<<<<<< HEAD
 export default class MainPageView extends Component {
-=======
-
-export default class MainPage extends Component {
->>>>>>> 007bda7666e8f89515c0622a1367f2261d001344
     constructor(props) {
         super(props);
         this.state = {
@@ -25,7 +20,7 @@ export default class MainPage extends Component {
               authenticated: this.props.authenticated
           });
         });
-    }
+      }
     
     componentWillUnmount() {
         this.authUnsub();
@@ -45,7 +40,6 @@ export default class MainPage extends Component {
     }
 
     render() {
-<<<<<<< HEAD
         let userDataRef = firebase.database().ref("userdata");
         console.log(userDataRef);
         userDataRef.once("value", snapshot =>
@@ -53,7 +47,7 @@ export default class MainPage extends Component {
             if (taskSnapshot.val().done) {
                 console.log(this.props.tasksRef.child(taskSnapshot.key));
             }
-}));
+    }));
     
         //var ref = firebase.database().ref().child();
         // ref.on("value", function(snapshot) {
@@ -61,10 +55,6 @@ export default class MainPage extends Component {
         //  }, function (error) {
         //     console.log("Error: " + error.code);
         //  });
-=======
-        console.log(this.state.displayName);
-        console.log("Authenticated in mainpage: "+ this.state.authenticated);
->>>>>>> 007bda7666e8f89515c0622a1367f2261d001344
 
         let taken;
         var dateobj= new Date() ;
@@ -87,7 +77,7 @@ export default class MainPage extends Component {
         // }
         
         return (
-            <div className="container">
+            <div className="Main text-center">
                 
                 <LeaderBoard  />
                  

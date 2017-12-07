@@ -40,8 +40,8 @@ export default class LeaderBoard extends Component {
         var month = dateobj.getMonth() + 1;
         var day = dateobj.getDate() ;
         var year = dateobj.getFullYear();
-        let dataRef = firebase.database().ref(month+"-"+day+"-"+year +'/').on();
-        dataRef.on()
+        // let dataRef = firebase.database().ref(month+"-"+day+"-"+year +'/').on();
+        // dataRef.on()
         this.setState({
             chartData: {
                 // labels - array that houses player names

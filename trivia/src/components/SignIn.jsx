@@ -41,16 +41,10 @@ export default class SignInView extends React.Component {
     }    
 
     render() {
-<<<<<<< HEAD
         console.log("fff"+this.state.authenticated);
  
         return (this.state.authenticated ? <MainPageView/> :
             <div className="container">
-=======
-        
-        return (
-            <div className="container signin">
->>>>>>> 007bda7666e8f89515c0622a1367f2261d001344
                 <header className = "">
                     <h1><font color="orange">Welcome to Trivial!</font></h1>
                     <h3>Please sign in</h3>
