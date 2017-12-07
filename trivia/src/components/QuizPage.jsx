@@ -118,6 +118,7 @@ export default class QuizPageView extends Component {
             var month = dateobj.getMonth() + 1;
             var day = dateobj.getDate();
             var year = dateobj.getFullYear();
+            console.log(this.state.displayName);
             let userData = {
                 score: this.state.score,
                 displayName: this.state.displayName,
@@ -183,7 +184,6 @@ class Quiz extends Component {
 
         return (
             <div>
-
                 {this.props.problem !== undefined ?
                     <div>
                         <div id="score">{this.props.score} out of {this.props.problem.number}</div>

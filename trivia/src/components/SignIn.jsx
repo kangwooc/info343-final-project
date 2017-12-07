@@ -3,6 +3,8 @@ import { Link, Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth";
+import MainPageView from './MainPage';
+
 
 export default class SignInView extends React.Component {
     constructor(props) {
@@ -32,16 +34,17 @@ export default class SignInView extends React.Component {
         .then(() => this.setState({working: false}));
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                this.props.history.push("mainpage");            
+                this.props.history.push("resultpage");            
             }
         this.setState({email: "", password: ""});
         });
     }    
 
     render() {
-        
-        return (
-            <div className="container signin">
+        console.log("fff"+this.state.authenticated);
+ 
+        return (this.state.authenticated ? <MainPageView/> :
+            <div className="container">
                 <header className = "">
                     <h1><font color="orange">Welcome to Trivial!</font></h1>
                     <h3>Please sign in</h3>
