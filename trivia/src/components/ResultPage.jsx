@@ -12,7 +12,7 @@ export default class ResultPage extends Component {
 
     home() {
         //direct back to mainpage
-        //this.props.history.push("");
+        //this.props.history.push("/");
     }
 
     render() {
@@ -34,4 +34,4 @@ export default class ResultPage extends Component {
     
 
     }  
-
+}
