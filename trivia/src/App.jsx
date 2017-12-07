@@ -41,6 +41,7 @@ class App extends Component {
       .then(() => this.setState({ working: false }));
   }
 
+<<<<<<< HEAD
   handleSignOut() {
     this.setState({ working: true });
     firebase.auth().signOut()
@@ -48,6 +49,9 @@ class App extends Component {
       .then(() => this.setState({ working: false, authenicated: false }))
       .then(window.location.href = constants.routes.signin);
   }
+=======
+
+>>>>>>> bd8d2afb9fdd594b9d7ebc8f3d90d7a6e1c014d5
 
   handleSignIn() {
     this.setState({ working: true, errorMessage: undefined });
@@ -75,6 +79,7 @@ class App extends Component {
               undefined
           }
           {
+<<<<<<< HEAD
             this.state.authenicated ?
               <div className="alert alert-success">Welcome to Trivia World{this.state.errorMessage}
                 <p>
@@ -82,6 +87,13 @@ class App extends Component {
                 </p>
               </div> :
               undefined
+=======
+            this.state.authenicated ? 
+            <div className="alert alert-success">Welcome to Trivia World{this.state.errorMessage}
+
+            </div> :
+            undefined
+>>>>>>> bd8d2afb9fdd594b9d7ebc8f3d90d7a6e1c014d5
           }
           <p>user is <strong>{this.state.authenicated ? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working ? "working on it !" : undefined}</span>

@@ -17,7 +17,7 @@ export default class MainPage extends Component {
         this.authUnsub = firebase.auth().onAuthStateChanged(user => {
           this.setState({
               displayName:user.displayName,
-              authenticated:this.props.authenticated
+              authenticated: this.props.authenticated
           });
         });
       }
@@ -26,17 +26,25 @@ export default class MainPage extends Component {
         this.authUnsub();
     }
 
+    handleSignOut() {
+        this.setState({working: true});
+        firebase.auth().signOut()
+          .catch(err => this.setState({errorMessage: err.message}))
+          .then(() => this.setState({working: false, authenicated: false}));
+          this.props.history.replace("/"); 
+    }
+
     quiz() {
-        this.setState({taken: true});
+        // this.setState({taken: true});
         //direct to quiz page
     }
 
     render() {
         console.log(this.state.displayName);
         console.log("Authenticated in mainpage: "+ this.state.authenticated);
-        if(this.props.authenticated!==true){
-            return (<Redirect to={constants.routes.signin} />)
-        }
+        // if(this.props.authenticated!==true){
+        //     return (<Redirect to={constants.routes.signin} />)
+        // }
         let taken;
         var user = firebase.auth().currentUser;
         var dateobj= new Date() ;
@@ -65,7 +73,9 @@ export default class MainPage extends Component {
                  
                 {taken}
 
-
+                <p>
+                <button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button>
+              </p>
             </div>
         );
     }

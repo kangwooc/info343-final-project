@@ -18,23 +18,21 @@ export default class SignInView extends React.Component {
         evt.preventDefault();
         console.log("signing in user with credentials: %s, %s", this.state.email, this.state.password);
         firebase.auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(function (user) {
-                if (user) { this.setState({ authenticated: true }) }
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error.code + ": " + error.message);
-                this.setState({ errorMessage: error.message })
-            }.bind(this));
-            
-            if (this.state.authenticated) {
-                return (<Redirect to={constants.routes.mainpage} />);
-            }
-    }
+        .signInWithEmailAndPassword(this.state.email,this.state.password)
+        .then(function(user) {
+            if (user) { this.setState({authenticated:true}) } 
+        }.bind(this))
+        .catch(function(error) {
+            console.log(error.code + ": " + error.message );
+            this.setState({errorMessage: error.message})
+        }.bind(this));
+        this.props.history.push("mainpage");
+    }    
 
     render() {
-
-        
+        // if (this.state.authenticated) {
+        //     return (<Redirect to={constants.routes.mainpage} />);
+        // }
         return (
             <div className="container">
                 <header className = "">
