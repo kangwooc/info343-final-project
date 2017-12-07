@@ -9,7 +9,7 @@ x
     constructor(props){
         super(props);
         this.state = {
-            correct: 0
+            //correct: 0
         };
     }
 
@@ -31,6 +31,7 @@ x
         console.log(console.log(this.state.displayName));
         // let scoreRef = firebase.database().ref(month+"-"+day+"-"+year).on("value", (snapshot)=>{
         // });
+        
     }
 
     clickHome() {
@@ -39,11 +40,11 @@ x
 
     render() {
         let content = undefined;
-        if(this.state.correct===10){
+        if(this.props.score===10){
             content = (<div>
                 <div className="container" id = "result">
                     <h1>Congratulations! {this.state.displayName}</h1>
-                    <h4>you answered {this.state.correct} out of 10 questions correctly!</h4>
+                    <h4>you answered {this.props.score} out of 10 questions correctly!</h4>
                     <img src={constants.routes.congratulationImg} alt = "congratulation" />
                     <h4>Come back tomorrow and try your luck again.</h4>
                     <button
@@ -53,11 +54,11 @@ x
                     </button>
                 </div>
             </div>);
-        }else if (this.state.correct<=9&&this.state.correct>4){
+        }else if (this.props.score<=9&&this.props.score>4){
             content = (<div>
                 <div className="container" id = "result">
                     <h1>Good Work! {this.state.displayName}</h1>
-                    <h4>you answered {this.state.correct} out of 10 questions correctly!</h4>
+                    <h4>you answered {this.props.score} out of 10 questions correctly!</h4>
                     <img src={constants.routes.goodjobImg} alt = "good job"/>
                     <h4>Come back tomorrow and try your luck again.</h4>
                     <button
@@ -67,12 +68,12 @@ x
                     </button>
                 </div>
             </div>);
-        }else if(this.state.correct<=4&&this.state.correct>0){
+        }else if(this.props.score<=4&&this.props.score>0){
             content = (
                 <div>
                     <div className="container" id = "result">
                         <h1>Need to Study! {this.state.displayName}</h1>
-                        <h4>you answered {this.state.correct} out of 10 questions correctly!</h4>
+                        <h4>you answered {this.props.score} out of 10 questions correctly!</h4>
                         <img src={constants.routes.needtoWorkImg} alt = "need to study" />
                         <h4>Come back tomorrow and try your luck again.</h4>
                         <button
@@ -88,7 +89,7 @@ x
             <div>
                 <div className="container" id = "result">
                     <h1>Need to Study! {this.state.displayName}</h1>
-                    <h4>you answered {this.state.correct} out of 10 questions correctly!</h4>
+                    <h4>you answered {this.props.score} out of 10 questions correctly!</h4>
                     <img src={constants.routes.whattheHellImg} alt = "what the hell" />
                     <h4>Come back tomorrow and try your luck again.</h4>
                     <button
@@ -103,6 +104,7 @@ x
         return (
             
             <div>
+                {console.log("yppp" + this.props.score)}
                 {content}
             </div>
         );

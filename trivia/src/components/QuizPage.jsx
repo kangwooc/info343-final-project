@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-
+import ResultPage from './ResultPage';
 export default class QuizPageView extends Component {
 
     constructor(props) {
@@ -103,11 +103,13 @@ export default class QuizPageView extends Component {
         console.log("h in handleAnswer = " + h);
         console.log("user displayname = "+this.state.displayName);
         console.log("Quiz current score state: " + this.state.score);
+        console.log("Quiz prop score :"+this.props.score);
         if(h<10){
             if(this.state.selectedOption === this.state.QNAs[h].answer){
-                var myScore = this.state.score;
+                var myScore = this.props.score;
                 myScore++;
-                console.log(myScore);
+                this.props.handleScore(myScore);
+                console.log("score is " + myScore);
                 this.setState({score:myScore});
             }
             console.log("113 line score: " + this.state.score);
@@ -120,6 +122,7 @@ export default class QuizPageView extends Component {
             if(this.state.selectedOption === this.state.QNAs[h].answer){
                 var myScore = this.state.score;
                 myScore++;
+                this.props.handleScore(myScore);
                 this.setState({score:myScore});
             }
             console.log(this.state.score);
@@ -150,7 +153,7 @@ export default class QuizPageView extends Component {
             let newPostKey = userDataRef.child('posts').push().key;
             var updates = {};
             updates[month + "-" + day + "-" + year + '/' + this.state.displayName] = userData;
-            this.props.history.push("resultpage");
+            // this.props.history.replace("/resultpage");
             return firebase.database().ref().update(updates);
         }
         console.log("total score: " + this.state.score);
@@ -167,7 +170,7 @@ export default class QuizPageView extends Component {
 
   
     render() {
-        return (
+        return (this.state.problemNum == 10 ? <ResultPage /> :
             <div id="quiz" className = "container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}

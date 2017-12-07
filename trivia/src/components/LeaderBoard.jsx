@@ -13,6 +13,7 @@ export default class LeaderBoard extends Component {
         super(props);
         this.state = {
             chartData: props.chartData,
+            i: 0
             
         }
     }
@@ -35,6 +36,7 @@ export default class LeaderBoard extends Component {
         return "#" + color;
     }
 
+
     getChartData(){
         var dateobj= new Date() ;
         var month = dateobj.getMonth() + 1;
@@ -42,22 +44,38 @@ export default class LeaderBoard extends Component {
         var year = dateobj.getFullYear();
         var names= [];
         var scores = [];
+        var obj = [];
         let dataRef = firebase.database().ref(month+"-"+day+"-"+year).on("value", (snapshot)=>{
             console.log(snapshot.val());
             snapshot.forEach(function(childSnapshot){
                 console.log(childSnapshot.val());
                 names.push(childSnapshot.val().displayName);
                 scores.push(childSnapshot.val().score);
+                obj.push({name: childSnapshot.val().displayName, score:childSnapshot.val().score});
             })
+            obj.sort(function(a,b) {
+                if (a.score>b.score) {
+                    return -1;
+                } else if(a.score<b.score){
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }).slice(0,10);
+            console.log(obj);
+            var result = obj.map(a => a.name);
+            var rs = obj.map(a=> a.score);
             this.setState({
                 chartData: {
                     // labels - array that houses player names
-                    labels: names,
+                    //labels: names,
+                    labels: result,
                     datasets: [
                         {
                         label: 'Score',
                         // data - array of player scores
-                        data: scores,
+                        //data: scores,
+                        data: rs,
                         // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
                         backgroundColor: "orange"
                         }
@@ -65,6 +83,7 @@ export default class LeaderBoard extends Component {
                 }
             });
         });
+        this.setState({i:this.state.i++});
         console.log("array of display name: "+names);
         console.log("array of scores = "+scores);
         
