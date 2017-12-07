@@ -43,7 +43,8 @@ export default class ResultPage extends Component {
             <div>
                 <div className="container" id = "result">
                     <h1>Congratulations!</h1>
-                    <h4>You answered {this.state.correct} out of 10 questions correctly!</h4>
+                    {console.log(this.props.correct)}
+                    <h4>You answered {this.props.correct} out of 10 questions correctly!</h4>
                     <img src="../goodjob.jpg" alt = "good job" height="42" width="42"/>
                     <h4>Come back tomorrow and try your luck again.</h4>
                     <button
