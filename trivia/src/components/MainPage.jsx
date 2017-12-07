@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import LeaderBoard from './LeaderBoard';
+
 export default class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +21,7 @@ export default class MainPage extends Component {
               authenticated: this.props.authenticated
           });
         });
-      }
+    }
     
     componentWillUnmount() {
         this.authUnsub();
@@ -42,9 +43,7 @@ export default class MainPage extends Component {
     render() {
         console.log(this.state.displayName);
         console.log("Authenticated in mainpage: "+ this.state.authenticated);
-        // if(this.props.authenticated!==true){
-        //     return (<Redirect to={constants.routes.signin} />)
-        // }
+
         let taken;
         var user = firebase.auth().currentUser;
         var dateobj= new Date() ;

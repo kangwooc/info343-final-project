@@ -32,7 +32,7 @@ export default class SignInView extends React.Component {
         .then(() => this.setState({working: false}));
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                this.props.history.push("mainpage");            
+                this.props.history.push("resultpage");            
             }
         this.setState({email: "", password: ""});
         });

@@ -4,6 +4,6 @@ export default {
         signup: "/signup",
         mainpage:"/mainpage",
         quizpage:"/quizpage",
-        leaderboard:"/leaderboard"
+        resultpage:"/resultpage"
     }
 }
