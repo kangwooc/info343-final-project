@@ -147,22 +147,11 @@ export default class QuizPageView extends Component {
         //this.setState({selectedOption:data});
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    render(){
-        console.log("user displayname = "+this.state.displayName);            
-        return(
-            <div id = "quiz container">
-=======
+
+  
     render() {
         return (
-            <div id="quiz">
->>>>>>> 17c9881a6e4e56fbb2d025501851475255c3d8f9
-=======
-    render() {
-        return (
-            <div id="quiz">
->>>>>>> 17c9881a6e4e56fbb2d025501851475255c3d8f9
+            <div id="quiz" className = "container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit={(evt) => this.handleAnswer(evt, this.state.score)}>
