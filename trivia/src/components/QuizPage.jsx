@@ -148,10 +148,16 @@ export default class QuizPageView extends Component {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     render(){
         console.log("user displayname = "+this.state.displayName);            
         return(
             <div id = "quiz container">
+=======
+    render() {
+        return (
+            <div id="quiz">
+>>>>>>> 17c9881a6e4e56fbb2d025501851475255c3d8f9
 =======
     render() {
         return (
