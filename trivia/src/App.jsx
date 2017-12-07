@@ -53,6 +53,7 @@ class App extends Component {
 
     console.log(this.state.authenicated);
     console.log("Authenticated in app.jsx: " + this.state.authenicated);
+
     return (
       <div className="App">
         <nav className="navbar navbar-dark bg-dark">
@@ -65,12 +66,7 @@ class App extends Component {
           }
           {
             this.state.authenicated ?
-              <div className="alert alert-success">Welcome to Trivia World{this.state.errorMessage}
-                <p>
-                  <button className="btn btn-danger" onClick={() => this.handleSignOut()}> Sign Out!</button>
-                </p>
-              </div> :
-              undefined
+              <div className="alert alert-success">Welcome to Trivia World</div> : undefined
           }
           <p>user is <strong>{this.state.authenicated ? "Authenticated!" : "Not Authenticated."}</strong></p>
           <span>{this.state.working ? "working on it !" : undefined}</span>

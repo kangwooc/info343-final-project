@@ -35,6 +35,9 @@ export default class SignUpView extends React.Component {
             .then(() => this.setState({working: false})); 
             firebase.auth().onAuthStateChanged(user => {
                 if(user) {
+                    user.updateProfile({
+                        displayName: this.state.displayName
+                });
                     this.props.history.push("mainpage");  
                 }
             }); 

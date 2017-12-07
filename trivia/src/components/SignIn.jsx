@@ -3,6 +3,8 @@ import { Link, Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth";
+import MainPageView from './MainPage';
+
 
 export default class SignInView extends React.Component {
     constructor(props) {
@@ -39,8 +41,9 @@ export default class SignInView extends React.Component {
     }    
 
     render() {
-        
-        return (
+        console.log("fff"+this.state.authenticated);
+ 
+        return (this.state.authenticated ? <MainPageView/> :
             <div className="container">
                 <header className = "">
                     <h1>Sign In</h1>

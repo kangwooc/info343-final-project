@@ -113,7 +113,7 @@ export default class QuizPageView extends Component {
             })
             this.setState({score: score, selectedOption:undefined});
         }else if (h===3) {
-            let userDataRef = firebase.database().ref("userdata")
+            let userDataRef = firebase.database().ref("userdata");
             var dateobj= new Date();
             var month = dateobj.getMonth() + 1;
             var day = dateobj.getDate() ;
