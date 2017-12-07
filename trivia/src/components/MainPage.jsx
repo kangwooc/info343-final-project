@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import LeaderBoard from './LeaderBoard';
+
 export default class MainPageView extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +32,7 @@ export default class MainPageView extends Component {
         firebase.auth().signOut()
           .catch(err => this.setState({errorMessage: err.message}))
           .then(() => this.setState({working: false, authenicated: false}));
-          //this.props.history.replace("/"); 
+          this.props.history.replace("/"); 
     }
 
     quiz() {
@@ -44,8 +45,10 @@ export default class MainPageView extends Component {
         console.log(userDataRef);
         userDataRef.once("value", snapshot =>
         snapshot.forEach(taskSnapshot => {
+            console.log(taskSnapshot);
+            console.log(taskSnapshot.val());
             if (taskSnapshot.val().done) {
-                console.log(this.props.tasksRef.child(taskSnapshot.key));
+                console.log(this.props.tasksRef.child(taskSnapshot.key).key);
             }
     }));
     

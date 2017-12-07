@@ -14,8 +14,7 @@ export default class QuizPageView extends Component {
             QNAs: {},
             score: 0,
             problemNum: 1,
-            selectedOption: undefined,
-            displayName: undefined
+            selectedOption: undefined
         };
         this.getOption = this.getOption.bind(this);   
     }
@@ -181,7 +180,7 @@ class Quiz extends Component {
     }
 
     render(){
-        
+        console.log("this.state.displayName in quiz page"+this.state.displayName);
         return (
             <div>
                 {this.props.problem !== undefined ?
