@@ -3,8 +3,7 @@ import firebase from 'firebase/app';
 import constants from './Constants';
 import 'firebase/auth';
 import 'firebase/database';
-import { Redirect } from 'react-router-dom';
-
+import ResultPage from './ResultPage';
 export default class QuizPageView extends Component {
 
     constructor(props) {
@@ -107,6 +106,7 @@ export default class QuizPageView extends Component {
         console.log("h in handleAnswer = " + h);
         console.log("user displayname = "+this.state.displayName);
         console.log("Quiz current score state: " + this.state.score);
+        console.log("Quiz prop score :"+this.props.score);
         if(h<10){
             if(this.state.selectedOption === this.state.QNAs[h].answer){
                 myScore++;
@@ -170,7 +170,7 @@ export default class QuizPageView extends Component {
     }
     
     render() {
-        return (
+        return (this.state.problemNum == 10 ? <ResultPage /> :
             <div id="quiz" className = "container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}

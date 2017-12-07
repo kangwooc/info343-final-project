@@ -44,6 +44,9 @@ class App extends Component {
       .then(() => this.setState({ working: false }));
   }
 
+  handleScore(score) {   
+    this.setState({score: score});
+  }
 
   handleSignIn() {
     this.setState({ working: true, errorMessage: undefined });
