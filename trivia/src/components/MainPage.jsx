@@ -74,7 +74,7 @@ export default class MainPage extends Component {
                 {taken}
 
                 <p>
-                <button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button>
+                <button className="btn btn-danger signout" onClick={()=>this.handleSignOut()}> Sign Out</button>
               </p>
             </div>
         );
