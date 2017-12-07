@@ -6,6 +6,7 @@ import SignInView from './components/SignIn';
 import constants from './components/Constants';
 import MainPageView from './components/MainPage';
 import QuizPageView from './components/QuizPage';
+import ResultPageView from "./components/ResultPage";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -76,13 +77,14 @@ class App extends Component {
               <Route path={constants.routes.signup} component={SignUpView} />
               <Route path={constants.routes.mainpage} component={MainPageView} />{console.log(this.state.authenicated)}
               <Route path={constants.routes.quizpage} component={QuizPageView}  />
+              <Route path = {constants.routes.resultpage} component={ResultPageView} />
             </Switch>
           </Router>
         </div>
         <div className="footer">
           <section>
-            <footer className="bg-dark text-white">
-              <p><i>&copy; 2017, Trivia, <a href="mailto:info@trivia.com"> info@trivia.com</a></i></p>
+            <footer>
+              <p></p>
             </footer>
           </section>
 

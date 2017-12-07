@@ -111,13 +111,14 @@ export default class QuizPageView extends Component {
             this.setState({
                 problemNum: h
             })
-            this.setState({score: score, selectedOption:undefined});
+            this.setState({score: score, selectedOption:undefined });
         }else if (h===3) {
             let userDataRef = firebase.database().ref("userdata");
             var dateobj= new Date();
             var month = dateobj.getMonth() + 1;
-            var day = dateobj.getDate() ;
+            var day = dateobj.getDate();
             var year = dateobj.getFullYear();
+            console.log(this.state.displayName);
             let userData = {
                     score : this.state.score,
                     displayName: this.state.displayName,
@@ -129,7 +130,8 @@ export default class QuizPageView extends Component {
             }
             let newPostKey = userDataRef.child('posts').push().key;
             var updates = {};
-            updates['/' + newPostKey] = userData; 
+            updates[month+"-"+day+"-"+year +'/' + this.state.displayName] = userData;
+            this.props.history.push("resultpage"); 
             return firebase.database().ref().update(updates);
         }
         console.log("total score: " + this.state.score);
@@ -145,12 +147,12 @@ export default class QuizPageView extends Component {
 
     render(){            
         return(
-            <div id = "quiz">
+            <div id = "quiz container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
                 <form onSubmit = {(evt)=>this.handleAnswer(evt, this.state.score)}>
                     <Quiz problem = {this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption = {this.getOption} mySelectedOption = {this.state.selectedOption} />
-                    {this.state.selectedOption === undefined ? undefined :<button className="btn btn-primary" type="submit" >Next -></button> }
+                    {this.state.selectedOption === undefined ? undefined :<button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button> }
                 </form>
             </div>
         );
@@ -182,12 +184,12 @@ class Quiz extends Component {
         
         return (
             <div>
-                
                 {this.props.problem !== undefined ?
                 <div>
                     <div id = "score">{this.props.score} out of {this.props.problem.number}</div>
-                    <div id = "question" className = "alert alert-success">{this.props.problem.number}.{" "+this.props.problem.question}</div>
+                    <div id = "question" className = "alert alert-dark">{this.props.problem.number}.{" "+this.props.problem.question}</div>
                         <form>
+
                             <div className = "radio">
                             <label>
                                 <input type = "radio" value = {this.props.problem.answers[0]} 
@@ -196,6 +198,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[0]}
                             </label>
                             </div>
+
                             <div className = "radio">
                             <label>
                                 <input type = "radio" value = {this.props.problem.answers[1]}
@@ -204,6 +207,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[1]}
                             </label>
                             </div>
+
                             <div className="radio">
                             <label>
                                 <input type="radio" value = {this.props.problem.answers[2]}
@@ -212,6 +216,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[2]}
                             </label>
                             </div>
+
                             <div className="radio">
                             <label>
                                 <input type="radio" value = {this.props.problem.answers[3]}
@@ -220,6 +225,7 @@ class Quiz extends Component {
                                 {" " + this.props.problem.answers[3]}
                             </label>
                             </div>
+
                         </form>
                 </div>
                 : undefined}

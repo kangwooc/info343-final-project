@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import { HorizontalBar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
-//import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
-
+// import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
+import firebase from "firebase/app";
+import 'firebase/auth';
+import "firebase/database";
 
 const names = ["Eight", "Three", "Six", "Four", "Nine", "Six", "Eight", "Ten", "Six", "Three"];
 const scores = [8, 3, 6, 4, 9, 6, 8, 10, 6, 3];
-// scores.sort(function(b, a){return a-b});
-// names.sort();
 
 export default class LeaderBoard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            chartData:props.chartData
+            chartData: props.chartData,
+            
         }
     }
 
     static defaultProps = {
-        displayTitle: true,
-        //displayLegend: false,
+        displayTitle: true
+        //displayLegend: true
     }
 
     componentWillMount(){
@@ -35,6 +36,12 @@ export default class LeaderBoard extends Component {
     }
 
     getChartData(){
+        var dateobj= new Date() ;
+        var month = dateobj.getMonth() + 1;
+        var day = dateobj.getDate() ;
+        var year = dateobj.getFullYear();
+        let dataRef = firebase.database().ref(month+"-"+day+"-"+year +'/').on();
+        dataRef.on()
         this.setState({
             chartData: {
                 // labels - array that houses player names
