@@ -41,12 +41,7 @@ class App extends Component {
       .then(() => this.setState({working: false}));
   }
 
-  handleSignOut() {
-    this.setState({working: true});
-    firebase.auth().signOut()
-      .catch(err => this.setState({errorMessage: err.message}))
-      .then(() => this.setState({working: false, authenicated: false})); 
-  }
+
 
   handleSignIn() {
     this.setState({working: true, errorMessage: undefined});
@@ -76,9 +71,7 @@ class App extends Component {
           {
             this.state.authenicated ? 
             <div className="alert alert-success">Welcome to Trivia World{this.state.errorMessage}
-              <p>
-                <button className="btn btn-primary" onClick={()=>this.handleSignOut()}> sign Out!</button>
-              </p>
+
             </div> :
             undefined
           }

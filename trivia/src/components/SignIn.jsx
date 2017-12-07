@@ -26,13 +26,14 @@ export default class SignInView extends React.Component {
             console.log(error.code + ": " + error.message );
             this.setState({errorMessage: error.message})
         }.bind(this));
+        this.props.history.push("mainpage");
     }    
 
     render() {
         
-        if (this.state.authenticated) {
-            return (<Redirect to={constants.routes.mainpage} />);
-        }
+        // if (this.state.authenticated) {
+        //     return (<Redirect to={constants.routes.mainpage} />);
+        // }
         return (
             <div className="container">
                 <h1>Sign In</h1>

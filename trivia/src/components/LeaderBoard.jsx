@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { HorizontalBar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
-import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
+//import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
 
 
 const names = ["Eight", "Three", "Six", "Four", "Nine", "Six", "Eight", "Ten", "Six", "Three"];
