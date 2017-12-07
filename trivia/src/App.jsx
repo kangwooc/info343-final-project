@@ -6,7 +6,7 @@ import SignInView from './components/SignIn';
 import constants from './components/Constants';
 import MainPageView from './components/MainPage';
 import QuizPageView from './components/QuizPage';
-import ResultPageView from './components/ResultPage';
+import ResultPageView from "./components/ResultPage";
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -54,8 +54,9 @@ class App extends Component {
 
     console.log(this.state.authenicated);
     console.log("Authenticated in app.jsx: " + this.state.authenicated);
-    console.log("display name in app.jsx" + this.state.displayName)
+
     return (
+      
       <div className="App">
         <nav className="navbar navbar-dark bg-dark">
           <span className="navbar-brand mb-0 h1"><font color="orange">TRIVIAL</font></span>
