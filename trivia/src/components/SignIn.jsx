@@ -45,7 +45,8 @@ export default class SignInView extends React.Component {
  
         return (this.state.authenticated ? <MainPageView/> :
             <div className="container">
-                <header className = "">
+                <div className = "signin">
+                <header>
                     <h1><font color="orange">Welcome to Trivial!</font></h1>
                     <h3>Please sign in</h3>
                 </header>
@@ -82,6 +83,7 @@ export default class SignInView extends React.Component {
                     </div>
                 </form>
                 <p>Don't have an account yet? <Link to={constants.routes.signup}>Sign Up!</Link></p>
+                </div>
             </div>
         );
     }

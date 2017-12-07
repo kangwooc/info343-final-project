@@ -56,12 +56,12 @@ export default class MainPageView extends Component {
                 lyear = childSnapshot.val().dateTaken.yearTaken;
             })
         });
-        var date = (lmonth == month && lday == day && lyear == year);
+        var date = (lmonth === month && lday === day && lyear === year);
         if(!date) {
             taken = (
                 <div className="container">
                     <button
-                        className="btn btn-primary" 
+                        className="btn btn-info" 
                         onClick={() => this.quiz()}>
                         Take Quiz!
                     </button>

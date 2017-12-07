@@ -50,7 +50,8 @@ export default class SignUpView extends React.Component {
     render() {
 
         return (
-            <div className="container signup">
+            <div className="container">
+            <div className = "signup">
                 <h1><font color="orange">Welcome to Trivial!</font></h1>
                 <h3>Please sign up</h3>
                 {
@@ -101,6 +102,7 @@ export default class SignUpView extends React.Component {
                     </div>
                 </form>
                 <p>Already have an account? <Link to={constants.routes.signin}>Sign In!</Link></p>
+                </div>
             </div>
         );
     }
