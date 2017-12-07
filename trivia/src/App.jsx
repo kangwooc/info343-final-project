@@ -51,10 +51,6 @@ class App extends Component {
 
   render() {
 
-    let scoreRef = firebase.database().ref("totalscore");
-    let displayNameRef = firebase.database().ref("displayname");
-    let dateRef = firebase.database().ref("date");
-
     console.log(this.state.authenicated);
     console.log("Authenticated in app.jsx: " + this.state.authenicated);
     return (
@@ -83,7 +79,7 @@ class App extends Component {
               <Route exact path={constants.routes.signin} component={SignInView} />
               <Route path={constants.routes.signup} component={SignUpView} />
               <Route path={constants.routes.mainpage} component={MainPageView} />{console.log(this.state.authenicated)}
-              <Route path={constants.routes.quizpage} component={QuizPageView} dateRef={dateRef} scoreRef={scoreRef} displayNameRef={displayNameRef} />
+              <Route path={constants.routes.quizpage} component={QuizPageView}  />
             </Switch>
           </Router>
         </div>

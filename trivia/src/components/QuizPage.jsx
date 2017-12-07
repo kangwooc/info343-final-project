@@ -14,8 +14,8 @@ export default class QuizPageView extends Component {
             QNAs: {},
             score: 0,
             problemNum: 1,
-            selectedOption: undefined
-            //displayName, finalScore, firebase database, date
+            selectedOption: undefined,
+            displayName: undefined
         };
         this.getOption = this.getOption.bind(this);   
     }
@@ -40,17 +40,15 @@ export default class QuizPageView extends Component {
     //     );
     // }
 
-    componentWillMount(){
+
+    componentDidMount(){
         this.authUnsub= firebase.auth().onAuthStateChanged((user)=>{
             this.setState(
                 {
-                    //displayName:user.displayName,
-                    authenticated:true
+                    authenticated:true,
+                    displayName : user.displayName
                 })
         });
-    }
-
-    componentDidMount(){
         fetch(this.state.API_KEY)
             .then(response => response.json())
             .then((data)=>{
@@ -81,12 +79,14 @@ export default class QuizPageView extends Component {
                 }
                 this.setState({QNAs : myQNAs});
             })
-            .catch(err => console.error(err));    
+            .catch(err => console.error(err));
     }
     
     componentWillUnMount(){
         this.authUnsub();
-        // setUserProperty(score and date)
+        this.props.dateRef.off("value");
+        this.props.displayNameRef.off("value");
+        this.props.scoreRef.off("value"); 
     }
     
     shuffleArray(array) {
@@ -101,7 +101,9 @@ export default class QuizPageView extends Component {
     handleAnswer(evt, score){
         evt.preventDefault();
         let h = this.state.problemNum;
-        if(h<=3){
+        console.log("h in handleAnswer = " + h);
+        {console.log("Quiz current score state: " + this.state.score)}
+        if(h<3){
             if(this.state.selectedOption === this.state.QNAs[h].answer){
                 score++; 
             }
@@ -110,6 +112,25 @@ export default class QuizPageView extends Component {
                 problemNum: h
             })
             this.setState({score: score, selectedOption:undefined});
+        }else if (h===3) {
+            let userDataRef = firebase.database().ref("userdata")
+            var dateobj= new Date();
+            var month = dateobj.getMonth() + 1;
+            var day = dateobj.getDate() ;
+            var year = dateobj.getFullYear();
+            let userData = {
+                    score : this.state.score,
+                    displayName: this.state.displayName,
+                    dateTaken:{
+                        monthTaken : month,
+                        dayTaken : day,
+                        yearTaken : year
+                    }
+            }
+            let newPostKey = userDataRef.child('posts').push().key;
+            var updates = {};
+            updates['/' + newPostKey] = userData; 
+            return firebase.database().ref().update(updates);
         }
         console.log("total score: " + this.state.score);
         console.log("this state selectedOption is: " +  this.state.selectedOption);
@@ -160,8 +181,8 @@ class Quiz extends Component {
     render(){
         
         return (
-            <div className="container quizquestions">
-                {console.log("Quiz current score state: " + this.state.currentScore)}
+            <div>
+                
                 {this.props.problem !== undefined ?
                 <div>
                     <div id = "score">{this.props.score} out of {this.props.problem.number}</div>

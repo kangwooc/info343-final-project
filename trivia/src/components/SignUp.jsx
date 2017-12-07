@@ -12,39 +12,37 @@ export default class SignUpView extends React.Component {
             email: "",
             password: ""
         }
+    } 
+
+    componentDidMount() {
+        this.authUnsub = firebase.auth().onAuthStateChanged(user => {
+            this.setState({authenticated: user != null});
+        });
     }
 
-    handleSubmit(evt) {
-        evt.preventDefault();
-        console.log(
-            "Creating user account with credentials: %s, %s,%s",
-            this.state.displayName,
-            this.state.email,
-            this.state.password
-        );
+    componentWillUnmount() {
+        this.authUnsub();
+    }
 
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(function (user) {
-                if (user) { this.setState({ authenticated: true }) }
-                return user;
-            }.bind(this))
-            .then(user => user.updateProfile({
-                lastTestTaken: undefined,
-                displayName: this.state.displayName
-            }))
-            .catch(function (error) {
-                console.log(error.code + ": " + error.message);
-                this.setState({ errorMessage: error.message })
-            }.bind(this));
-            
-            if (this.state.authenticated) {
-                return (<Redirect to={constants.routes.mainpage} />)
-            }
+    handleSubmit(evt){
+        evt.preventDefault();   
+        if (!this.state.displayName){
+            this.setState({errorMessage: "please enter a display name"});
+        } else {
+            this.setState({working: true, errorMessage: undefined});
+            firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+            .catch(err => this.setState({errorMessage: err.message}))
+            .then(() => this.setState({working: false})); 
+            firebase.auth().onAuthStateChanged(user => {
+                if(user) {
+                    this.props.history.push("mainpage");  
+                }
+            }); 
+        }
+        this.setState({email: "", password: "", displayName: ""});        
     }
 
     render() {
-        console.log("Authenticated in signin: " + this.state.authenticated);
-        
 
         return (
             <div className="container signup">

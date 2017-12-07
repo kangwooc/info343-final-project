@@ -8,31 +8,38 @@ export default class SignInView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            authenticated:false,
             email: "",
-            password: "",
-            errorMessage: null
+            password: ""
         };
+    }
+    componentDidMount() {
+        this.authUnsub = firebase.auth().onAuthStateChanged(user => {
+          this.setState({authenticated: user != null});
+        });
+      }
+
+    componentWillUnmount() {
+        this.authUnsub();
     }
 
     handleSubmit(evt) {
         evt.preventDefault();
-        console.log("signing in user with credentials: %s, %s", this.state.email, this.state.password);
+        this.setState({working: true, errorMessage: undefined});
         firebase.auth()
         .signInWithEmailAndPassword(this.state.email,this.state.password)
-        .then(function(user) {
-            if (user) { this.setState({authenticated:true}) } 
-        }.bind(this))
-        .catch(function(error) {
-            console.log(error.code + ": " + error.message );
-            this.setState({errorMessage: error.message})
-        }.bind(this));
-        this.props.history.push("mainpage");
+        .catch(err => this.setState({errorMessage: err.message}))
+        .then(() => this.setState({working: false}));
+        firebase.auth().onAuthStateChanged(user => {
+            if(user) {
+                this.props.history.push("mainpage");            
+            }
+        this.setState({email: "", password: ""});
+        });
     }    
 
     render() {
-        // if (this.state.authenticated) {
-        //     return (<Redirect to={constants.routes.mainpage} />);
-        // }
+        
         return (
             <div className="container signin">
                 <header className = "">
