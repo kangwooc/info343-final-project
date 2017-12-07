@@ -1,11 +1,11 @@
 import React from "react";
-import {Link, Redirect} from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth";
 
 export default class SignInView extends React.Component {
-    constructor (props){
+    constructor(props) {
         super(props);
         this.state = {
             authenticated:false,
@@ -42,33 +42,42 @@ export default class SignInView extends React.Component {
         
         return (
             <div className="container">
-                <h1>Sign In</h1>
+                <header className = "">
+                    <h1>Sign In</h1>
+                </header>
                 {
                     this.state.errorMessage &&
-                    <p className="alert alert-danger">{this.state.errorMessage}</p>    
+                    <p className="alert alert-danger">{this.state.errorMessage}</p>
                 }
                 <form onSubmit={evt => this.handleSubmit(evt)}>
-                    <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input id="email" type="email" className="form-control" 
-                        placeholder="enter your email address"
-                        value={this.state.email}
-                        onInput={evt => this.setState({email: evt.target.value})}/>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4">
+                            <label htmlFor="email">Email:</label>
+                            <input id="email" type="email" className="form-control"
+                                placeholder="enter your email address"
+                                value={this.state.email}
+                                onInput={evt => this.setState({ email: evt.target.value })} />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password:</label>
-                        <input id="password" type="password" className="form-control"
-                        placeholder="enter your password" 
-                        value={this.state.password}
-                        onInput={evt => this.setState({password: evt.target.value})}/>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4 ">
+                            <label htmlFor="password">Password:</label>
+                            <input id="password" type="password" className="form-control"
+                                placeholder="enter your password"
+                                value={this.state.password}
+                                onInput={evt => this.setState({ password: evt.target.value })} />
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>
-                            Sign In
-                        </button>
+                    <div className="row">
+                        <div className="col-md-4"></div>
+                        <div className="form-group col-md-4 ">
+                            <button type="submit" className="btn btn-primary" onClick={e => this.handleSubmit(e)}>Sign In</button>
+                        </div>
                     </div>
                 </form>
-                 <p>Don't yet have an account? <Link to={constants.routes.signup}>Sign Up!</Link></p>
+                <p>Don't have an account yet? <Link to={constants.routes.signup}>Sign Up!</Link></p>
             </div>
         );
     }

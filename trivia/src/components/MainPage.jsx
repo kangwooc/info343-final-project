@@ -20,7 +20,6 @@ export default class MainPage extends Component {
               authenticated: this.props.authenticated
           });
         });
-       
       }
     
     componentWillUnmount() {
