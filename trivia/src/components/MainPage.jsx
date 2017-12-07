@@ -17,7 +17,7 @@ export default class MainPage extends Component {
     componentDidMount() {
         this.authUnsub = firebase.auth().onAuthStateChanged(user => {
           this.setState({
-              displayName:user.displayName,
+              displayName: user.displayName,
               authenticated: this.props.authenticated
           });
         });

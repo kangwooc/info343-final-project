@@ -54,7 +54,7 @@ class App extends Component {
 
     console.log(this.state.authenicated);
     console.log("Authenticated in app.jsx: " + this.state.authenicated);
-
+    console.log("display name in app.jsx" + this.state.displayName)
     return (
       <div className="App">
         <nav className="navbar navbar-dark bg-dark">

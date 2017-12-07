@@ -102,6 +102,7 @@ export default class QuizPageView extends Component {
         evt.preventDefault();
         let h = this.state.problemNum;
         console.log("h in handleAnswer = " + h);
+        console.log("user displayname = "+this.state.displayName);
         {console.log("Quiz current score state: " + this.state.score)}
         if(h<3){
             if(this.state.selectedOption === this.state.QNAs[h].answer){
@@ -119,6 +120,7 @@ export default class QuizPageView extends Component {
             var day = dateobj.getDate();
             var year = dateobj.getFullYear();
             console.log(this.state.displayName);
+            console.log("the middle of total score: " + this.state.score);
             let userData = {
                     score : this.state.score,
                     displayName: this.state.displayName,
@@ -145,7 +147,8 @@ export default class QuizPageView extends Component {
         //this.setState({selectedOption:data});
     }
 
-    render(){            
+    render(){
+        console.log("user displayname = "+this.state.displayName);            
         return(
             <div id = "quiz container">
                 {/* {this.componentDidMountTimer()} */}
