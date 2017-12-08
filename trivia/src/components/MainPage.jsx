@@ -82,9 +82,9 @@ export default class MainPageView extends Component {
             <div className="Main text-center">
                 <LeaderBoard />
                 {this.state.taken}
-                <p>
-                    <button className="btn btn-danger text-center" onClick={() => this.handleSignOut()}> Sign Out</button>
-                </p>
+                <div className="footer">
+                    <button className="btn-sm btn-danger text-center signoutbutton" onClick={()=>this.handleSignOut()}> Sign Out</button>
+                </div>
             </div>
         );
     }
