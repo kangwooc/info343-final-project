@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HorizontalBar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
+import { HorizontalBar, Bar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
 // import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
 import firebase from "firebase/app";
 import 'firebase/auth';
@@ -14,7 +14,6 @@ export default class LeaderBoard extends Component {
         this.state = {
             chartData: props.chartData,
             i: 0
-            
         }
     }
 
@@ -61,7 +60,7 @@ export default class LeaderBoard extends Component {
                 } else {
                     return 0;
                 }
-            }).slice(0,10);
+            }).slice(0,9);
             console.log(obj);
             var result = obj.map(a => a.name);
             var rs = obj.map(a=> a.score);
@@ -96,9 +95,9 @@ export default class LeaderBoard extends Component {
                     <HorizontalBar
                         data={this.state.chartData}
                         width={75}
-                        height={50}
+                        height={250}
                         options={{
-                            //maintainAspectRatio: true,
+                            maintainAspectRatio: false,
                             title:{
                                 display: this.props.displayTitle,
                                 text:"Today's Trivia Leaderboard",
@@ -114,7 +113,7 @@ export default class LeaderBoard extends Component {
                             },
                             scales: {
                                 yAxes: [{
-                                barPercentage: 0.9,
+                                barPercentage: .4,
                                 gridLines: {
                                     display: false
                                 }

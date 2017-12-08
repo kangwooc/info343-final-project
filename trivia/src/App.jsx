@@ -97,14 +97,14 @@ class App extends Component {
             </Switch>
           </Router>
         </div>
-        <div className="footer">
+        {/* <div className="footer">
           <section>
             <footer>
               <p></p>
             </footer>
           </section>
 
-        </div>
+        </div> */}
       </div>
     );
   }

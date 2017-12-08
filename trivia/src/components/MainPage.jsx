@@ -63,7 +63,7 @@ export default class MainPageView extends Component {
             taken = (
                 <div className="container">
                     <button
-                        className="btn btn-info" 
+                        className="btn-sm btn-info" 
                         onClick={(evt) => this.quiz(evt)}>
                         Take Quiz!
                     </button>
@@ -77,9 +77,11 @@ export default class MainPageView extends Component {
             <div className="Main text-center">
                 <LeaderBoard  />
                 {taken}
-                <p>
-                    <button className="btn btn-danger text-center" onClick={()=>this.handleSignOut()}> Sign Out</button>
-                </p>
+                <div className="footer">
+                    <button className="btn-sm btn-danger text-center signoutbutton" onClick={()=>this.handleSignOut()}> Sign Out</button>
+                </div>
+                
+                
             </div>
         );
     }
