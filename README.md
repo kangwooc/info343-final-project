@@ -17,3 +17,4 @@ Mesfin Berkele – User account systems
 Will Tucker - User account creation and management, chart.js integration, styling, project management
 Kangwoo Choi – Primary quiz functionality, scoring
 Tina Zhuang – Site architecture, main page and results page, styling
+
