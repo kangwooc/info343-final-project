@@ -18,7 +18,8 @@ class App extends Component {
     this.state = {
       authenicated: false,
       displayName: undefined,
-      score:0
+      score:0,
+      time:10
     };
     this.getScore = this.getScore.bind(this);
   }
@@ -88,7 +89,7 @@ class App extends Component {
               <Route path={constants.routes.signup} component={SignUpView} />
               <Route path={constants.routes.mainpage} render = {(props)=><MainPageView {...props}/>} />
               <Route path={constants.routes.quizpage} render={(props) => (
-                <QuizPageView {...props} score = {this.state.score} sendScore={this.getScore} />
+                <QuizPageView {...props} score = {this.state.score} sendScore={this.getScore} time={this.props.time} />
               )}
               />
               <Route path = {constants.routes.resultpage} render={(props)=>(
