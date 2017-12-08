@@ -116,8 +116,11 @@ export default class QuizPageView extends Component {
                 console.log(myScore);
                 this.setState({ score: myScore, correct: true });
                 console.log("116 line score: " + this.state.score);
+                swal("Yeah!", "You got it right!", "success");
+
             } else {
                 this.setState({ correct: false });
+                swal("Oops!", "The correct answer is " + this.state.QNAs[h].answer, "error");
             }
             console.log("118 line score: " + this.state.score);
             h++;
@@ -129,6 +132,10 @@ export default class QuizPageView extends Component {
             if (this.state.selectedOption === this.state.QNAs[h].answer) {
                 myScore++;
                 this.state.score = myScore;
+                swal("Yeah!", "You got it right!", "success");
+                
+            } else {
+                swal("Oops!", "The correct answer is " + this.state.QNAs[h].answer, "error");
             }
             console.log("finish the score = " + this.state.score);
             var finalScore = this.state.score;
@@ -213,22 +220,16 @@ export default class QuizPageView extends Component {
     render() {
         return (
             <div id="quiz" className="container">
-                {
-                    this.state.correct === undefined ?
-                        undefined : this.state.correct ?
-                            <div className="alert alert-success">
-                                Correct!
-                        </div> :
-                            <div className="alert alert-danger">
-                                Wrong!
-                        </div>
-                }
                 <Timer remaining = {this.state.time} afterCompleted={this.timeOut}>
                     <Countdown />
                 </Timer>
                 <form onSubmit={(evt) => this.handleAnswer(evt)}>
-                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption} />
-                    {this.state.selectedOption === undefined ? undefined : <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>}
+                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption}/>
+                    {this.state.selectedOption === undefined ? undefined : 
+                    <div>
+                        
+                        <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>
+                    </div>}
                 </form>
                 
             </div>
@@ -250,6 +251,7 @@ class Quiz extends Component {
         });
         let value = changeEvent.target.value;
         this.sendOption(value);
+
     }
 
     sendOption(selectedOption) {
