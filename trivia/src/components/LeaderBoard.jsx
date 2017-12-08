@@ -44,16 +44,16 @@ export default class LeaderBoard extends Component {
         var year = dateobj.getFullYear();
         var names= [];
         var scores = [];
-        var obj = [];
+        var old = [];
         let dataRef = firebase.database().ref(month+"-"+day+"-"+year).on("value", (snapshot)=>{
             console.log(snapshot.val());
             snapshot.forEach(function(childSnapshot){
                 console.log(childSnapshot.val());
                 names.push(childSnapshot.val().displayName);
                 scores.push(childSnapshot.val().score);
-                obj.push({name: childSnapshot.val().displayName, score:childSnapshot.val().score});
+                old.push({name: childSnapshot.val().displayName, score:childSnapshot.val().score});
             })
-            obj.sort(function(a,b) {
+            old.sort(function(a,b) {
                 if (a.score>b.score) {
                     return -1;
                 } else if(a.score<b.score){
@@ -61,7 +61,11 @@ export default class LeaderBoard extends Component {
                 } else {
                     return 0;
                 }
-            }).slice(0,10);
+            });
+            var obj = [];
+            for(var i = 0; i < 10; i++) {
+            obj[i] = old[i];
+            }
             console.log(obj);
             var result = obj.map(a => a.name);
             var rs = obj.map(a=> a.score);
