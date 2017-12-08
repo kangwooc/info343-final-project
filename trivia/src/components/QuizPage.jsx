@@ -170,7 +170,7 @@ export default class QuizPageView extends Component {
     }
     
     render() {
-        return (this.state.problemNum == 10 ? <ResultPage /> :
+        return (
             <div id="quiz" className = "container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
@@ -219,7 +219,8 @@ class Quiz extends Component {
                                     <input type="radio" value={this.props.problem.answers[0]}
                                         checked={this.state.selectedOption === this.props.problem.answers[0]}
                                         onChange={(evt) => this.handleOptionChange(evt)} />
-                                    {" " + this.props.problem.answers[0]} {console.log("the problems and answer"+this.props.problem.answers)}
+                                    {" " + this.props.problem.answers[0]} 
+                                    {console.log("the problems and answer"+this.props.problem.answers)}
                                     {console.log("answer"+this.props.problem.answer)}
                                 </label>
                             </div>

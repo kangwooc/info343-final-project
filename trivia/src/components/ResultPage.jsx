@@ -9,7 +9,7 @@ export default class ResultPage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            //correct: 0
+            correct: 0
         };
     }
 

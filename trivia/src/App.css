@@ -20,7 +20,7 @@ body {
   float: right;
 }
 
-.footer {
+/* .footer {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -28,7 +28,7 @@ body {
     background-color: orange;
     color: white;
     text-align: center;
-}
+} */
 
 .btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited, .btn-info:focus {
   background-color: orange !important;

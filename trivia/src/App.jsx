@@ -86,7 +86,7 @@ class App extends Component {
             <Switch>
               <Route exact path={constants.routes.signin} component={SignInView} />
               <Route path={constants.routes.signup} component={SignUpView} />
-              <Route path={constants.routes.mainpage} component={MainPageView} />
+              <Route path={constants.routes.mainpage} render = {(props)=><MainPageView {...props}/>} />
               <Route path={constants.routes.quizpage} render={(props) => (
                 <QuizPageView {...props} score = {this.state.score} sendScore={this.getScore} />
               )}

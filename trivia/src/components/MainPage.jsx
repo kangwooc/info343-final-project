@@ -21,7 +21,7 @@ export default class MainPageView extends Component {
               authenticated: this.props.authenticated
           });
         });
-      }
+    }
     
     componentWillUnmount() {
         this.authUnsub();
@@ -32,11 +32,13 @@ export default class MainPageView extends Component {
         firebase.auth().signOut()
           .catch(err => this.setState({errorMessage: err.message}))
           .then(() => this.setState({working: false, authenicated: false}));
-          this.props.history.replace(constants.routes.signin); 
+          this.props.history.replace(constants.routes.signin);
     }
 
-    quiz() {
+    quiz(evt) {
+        evt.preventDefault();
         this.props.history.replace(constants.routes.quizpage);
+        <Redirect to = {constants.routes.quizpage}/>
     }
 
     render() {
@@ -62,7 +64,7 @@ export default class MainPageView extends Component {
                 <div className="container">
                     <button
                         className="btn btn-info" 
-                        onClick={() => this.quiz()}>
+                        onClick={(evt) => this.quiz(evt)}>
                         Take Quiz!
                     </button>
                 </div>
