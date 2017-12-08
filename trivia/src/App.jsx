@@ -17,8 +17,10 @@ class App extends Component {
     super(props);
     this.state = {
       authenicated: false,
-      displayName: undefined
+      displayName: undefined,
+      score:0
     };
+    this.getScore = this.getScore.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +44,9 @@ class App extends Component {
       .then(() => this.setState({ working: false }));
   }
 
+  handleScore(score) {   
+    this.setState({score: score});
+  }
 
   handleSignIn() {
     this.setState({ working: true, errorMessage: undefined });
@@ -50,12 +55,18 @@ class App extends Component {
       .then(() => this.setState({ working: false }));
   }
 
+  getScore(data){
+    console.log(data);
+    this.setState({score:data});
+  }
+
   render() {
 
     console.log(this.state.authenicated);
     console.log("Authenticated in app.jsx: " + this.state.authenicated);
 
     return (
+      
       <div className="App">
         <nav className="navbar navbar-dark bg-dark">
           <span className="navbar-brand mb-0 h1"><font color="orange">TRIVIAL</font></span>
@@ -65,19 +76,24 @@ class App extends Component {
             this.state.errorMessage ? <div className="alert alert-danger">{this.state.errorMessage}</div> :
               undefined
           }
-          {
+          {/* {
             this.state.authenicated ?
               <div className="alert alert-success">Welcome to Trivia World</div> : undefined
-          }
-          <p>user is <strong>{this.state.authenicated ? "Authenticated!" : "Not Authenticated."}</strong></p>
+          } */}
+          {/* <p>user is <strong>{this.state.authenicated ? "Authenticated!" : "Not Authenticated."}</strong></p> */}
           <span>{this.state.working ? "working on it !" : undefined}</span>
           <Router>
             <Switch>
               <Route exact path={constants.routes.signin} component={SignInView} />
               <Route path={constants.routes.signup} component={SignUpView} />
-              <Route path={constants.routes.mainpage} component={MainPageView} />{console.log(this.state.authenicated)}
-              <Route path={constants.routes.quizpage} component={QuizPageView}  />
-              <Route path = {constants.routes.resultpage} component={ResultPageView} />
+              <Route path={constants.routes.mainpage} render = {(props)=><MainPageView {...props}/>} />
+              <Route path={constants.routes.quizpage} render={(props) => (
+                <QuizPageView {...props} score = {this.state.score} sendScore={this.getScore} />
+              )}
+              />
+              <Route path = {constants.routes.resultpage} render={(props)=>(
+                <ResultPageView {...props} score = {this.state.score} />
+              )}/>
             </Switch>
           </Router>
         </div>

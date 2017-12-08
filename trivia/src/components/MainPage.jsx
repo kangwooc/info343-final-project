@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import LeaderBoard from './LeaderBoard';
+
 export default class MainPageView extends Component {
     constructor(props) {
         super(props);
@@ -16,11 +17,11 @@ export default class MainPageView extends Component {
     componentDidMount() {
         this.authUnsub = firebase.auth().onAuthStateChanged(user => {
           this.setState({
-              displayName:user.displayName,
+              displayName: user.displayName,
               authenticated: this.props.authenticated
           });
         });
-      }
+    }
     
     componentWillUnmount() {
         this.authUnsub();
@@ -31,61 +32,54 @@ export default class MainPageView extends Component {
         firebase.auth().signOut()
           .catch(err => this.setState({errorMessage: err.message}))
           .then(() => this.setState({working: false, authenicated: false}));
-          //this.props.history.replace("/"); 
+          this.props.history.replace(constants.routes.signin);
     }
 
-    quiz() {
-        // this.setState({taken: true});
-        // direct to quiz page
+    quiz(evt) {
+        evt.preventDefault();
+        this.props.history.replace(constants.routes.quizpage);
+        //<Redirect to = {constants.routes.quizpage}/>
     }
 
     render() {
-        let userDataRef = firebase.database().ref("userdata");
-        console.log(userDataRef);
-        userDataRef.once("value", snapshot =>
-        snapshot.forEach(taskSnapshot => {
-            if (taskSnapshot.val().done) {
-                console.log(this.props.tasksRef.child(taskSnapshot.key));
-            }
-    }));
-    
-        //var ref = firebase.database().ref().child();
-        // ref.on("value", function(snapshot) {
-        //     console.log(snapshot.val());
-        //  }, function (error) {
-        //     console.log("Error: " + error.code);
-        //  });
-
         let taken;
         var dateobj= new Date() ;
         var month = dateobj.getMonth() + 1;
         var day = dateobj.getDate() ;
         var year = dateobj.getFullYear();
-        //var date = (user.month === month && user.day === day && user.year === year);
-        // if(date) {
-        //     taken = (
-        //         <div className="container">
-        //             <button
-        //                 className="btn btn-primary" 
-        //                 onClick={() => this.quiz()}>
-        //                 Take Quiz!
-        //             </button>
-        //         </div>
-        //     ); 
-        // } else {    //taken
-        //     taken = <h3>Come back tomorrow!</h3>;
-        // }
+        var lday;
+        var lmonth;
+        var lyear;
+        let dataRef = firebase.database().ref(month+"-"+day+"-"+year).on("value", (snapshot)=>{
+            console.log(snapshot.val());
+            snapshot.forEach(function(childSnapshot){
+                lday = childSnapshot.val().dateTaken.dayTaken;
+                lmonth = childSnapshot.val().dateTaken.monthTaken;
+                lyear = childSnapshot.val().dateTaken.yearTaken;
+            })
+        });
+        var date = (lmonth === month && lday === day && lyear === year);
+        if(!date) {
+            taken = (
+                <div className="container">
+                    <button
+                        className="btn btn-info" 
+                        onClick={(evt) => this.quiz(evt)}>
+                        Take Quiz!
+                    </button>
+                </div>
+            ); 
+        } else {    //taken
+            taken = <h3>Come back tomorrow!</h3>;
+        }
         
         return (
             <div className="Main text-center">
-                
                 <LeaderBoard  />
-                 
                 {taken}
-
                 <p>
-                <button className="btn btn-danger signout" onClick={()=>this.handleSignOut()}> Sign Out</button>
-              </p>
+                    <button className="btn btn-danger text-center" onClick={()=>this.handleSignOut()}> Sign Out</button>
+                </p>
             </div>
         );
     }

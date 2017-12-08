@@ -3,12 +3,13 @@ import { Link, Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth";
+import MainPageView from './MainPage';
 
 export default class SignUpView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayName: "",
+            displayName: undefined,
             email: "",
             password: ""
         }
@@ -23,32 +24,35 @@ export default class SignUpView extends React.Component {
     componentWillUnmount() {
         this.authUnsub();
     }
-
+    
     handleSubmit(evt){
-        evt.preventDefault();   
-        if (!this.state.displayName){
+        evt.preventDefault();
+        console.log(this.state.displayName);
+        // handle unique displayName
+
+        if (this.state.displayName===undefined){
             this.setState({errorMessage: "please enter a display name"});
-        } else {
+        }else {
             this.setState({working: true, errorMessage: undefined});
             firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+            .then(user => user.updateProfile({
+                displayName: this.state.displayName
+            }))
             .catch(err => this.setState({errorMessage: err.message}))
-            .then(() => this.setState({working: false})); 
+            .then(() => this.setState({working: false}));   
             firebase.auth().onAuthStateChanged(user => {
                 if(user) {
-                    user.updateProfile({
-                        displayName: this.state.displayName
-                });
                     this.props.history.push("mainpage");  
                 }
             }); 
         }
-        this.setState({email: "", password: "", displayName: ""});        
+        console.log("display Name = "+this.state.displayName);
     }
 
     render() {
-
         return (
-            <div className="container signup">
+            <div className="container">
+            <div className = "signup">
                 <h1><font color="orange">Welcome to Trivial!</font></h1>
                 <h3>Please sign up</h3>
                 {
@@ -61,7 +65,7 @@ export default class SignUpView extends React.Component {
                         <div className="form-group col-md-4">
                             <label htmlFor="DisplayName">Display name:</label>
                             <input id="displayName" type="text" className="form-control"
-                                placeholder="Type your display name/ nickname"
+                                placeholder="Type your display name / Nickname"
                                 value={this.state.displayName}
                                 onInput={evt => this.setState({ displayName: evt.target.value })}
                             />
@@ -92,13 +96,12 @@ export default class SignUpView extends React.Component {
                     <div className="row">
                         <div className="col-md-4"></div>
                         <div className="form-group col-md-4">
-                            <button type="button" className="btn btn-info" onClick={e => this.handleSubmit(e)}>
-                                Sign Up!
-                                </button>
+                            <button type="button" className="btn btn-info" onClick={e => this.handleSubmit(e)}>Sign Up!</button>
                         </div>
                     </div>
                 </form>
                 <p>Already have an account? <Link to={constants.routes.signin}>Sign In!</Link></p>
+                </div>
             </div>
         );
     }

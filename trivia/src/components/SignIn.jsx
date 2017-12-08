@@ -29,23 +29,23 @@ export default class SignInView extends React.Component {
         evt.preventDefault();
         this.setState({working: true, errorMessage: undefined});
         firebase.auth()
-        .signInWithEmailAndPassword(this.state.email,this.state.password)
-        .catch(err => this.setState({errorMessage: err.message}))
-        .then(() => this.setState({working: false}));
+            .signInWithEmailAndPassword(this.state.email,this.state.password)
+            .catch(err => this.setState({errorMessage: err.message}))
+            .then(() => this.setState({working: false}));
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                this.props.history.push("resultpage");            
+                this.props.history.push("mainpage");            
             }
-        this.setState({email: "", password: ""});
         });
     }    
 
     render() {
-        console.log("fff"+this.state.authenticated);
+        console.log("this.state.authenticated : "+this.state.authenticated);
  
-        return (this.state.authenticated ? <MainPageView/> :
+        return (this.state.authenticated ? <MainPageView /> :
             <div className="container">
-                <header className = "">
+                <div className = "signin">
+                <header>
                     <h1><font color="orange">Welcome to Trivial!</font></h1>
                     <h3>Please sign in</h3>
                 </header>
@@ -82,6 +82,7 @@ export default class SignInView extends React.Component {
                     </div>
                 </form>
                 <p>Don't have an account yet? <Link to={constants.routes.signup}>Sign Up!</Link></p>
+                </div>
             </div>
         );
     }

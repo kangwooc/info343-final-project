@@ -1,45 +1,27 @@
 import React, { Component } from 'react';
+import decode from 'urldecode';
 import firebase from 'firebase/app';
+import constants from './Constants';
 import 'firebase/auth';
 import 'firebase/database';
-
+import ResultPage from './ResultPage';
 export default class QuizPageView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             checked: false,
-            API_KEY: "https://opentdb.com/api.php?amount=3&type=multiple",
+            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986",
             token: undefined,
             QNAs: {},
             score: 0,
             problemNum: 1,
             selectedOption: undefined,
-            displayName: undefined
+            correct: undefined
         };
         this.getOption = this.getOption.bind(this);
+        this.sendScore = this.sendScore.bind(this);
     }
-
-    // componentDidMountTimer() {
-    //     setInterval(
-    //         function() {
-    //             this.setState({time: this.state.time - 100 });       
-    //         }.bind(this)
-    //         , 100);
-    //         if (this.state.time === 0) {
-    //             //direct to next question
-    //             this.setState({time: 1000});
-
-    //         }
-    //     // a question has been answered
-    //     //this.setState({time: 1000});
-    //     return(
-    //         <div>
-    //             {this.state.time}
-    //         </div>
-    //     );
-    // }
-
 
     componentDidMount() {
         this.authUnsub = firebase.auth().onAuthStateChanged((user) => {
@@ -61,12 +43,12 @@ export default class QuizPageView extends Component {
                         answers: [],
                         answer: ""
                     };
-                    let q = elem.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+                    let q = decode(elem.question);
                     var anss = [];
                     for (let i = 0; i < elem.incorrect_answers.length; i++) {
-                        anss.push(elem.incorrect_answers[i].replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&scaron;/g, "š"));
+                        anss.push(decode(elem.incorrect_answers[i]));
                     }
-                    var ans = elem.correct_answer.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&scaron;/g, "š");
+                    var ans = decode(elem.correct_answer);
                     QNA.question = q;
                     QNA.answers = anss;
                     QNA.answer = ans;
@@ -84,9 +66,9 @@ export default class QuizPageView extends Component {
 
     componentWillUnMount() {
         this.authUnsub();
-        this.props.dateRef.off("value");
-        this.props.displayNameRef.off("value");
-        this.props.scoreRef.off("value");
+        this.props.dateRef.off();
+        this.props.displayNameRef.off();
+        this.props.scoreRef.off();
     }
 
     shuffleArray(array) {
@@ -98,27 +80,46 @@ export default class QuizPageView extends Component {
         }
     }
 
-    handleAnswer(evt, score) {
+    handleAnswer(evt) {
         evt.preventDefault();
         let h = this.state.problemNum;
+        var myScore = this.state.score;
         console.log("h in handleAnswer = " + h);
-        { console.log("Quiz current score state: " + this.state.score) }
-        if (h < 3) {
+        console.log("user displayname = " + this.state.displayName);
+        console.log("Quiz current score state: " + this.state.score);
+        console.log("Quiz prop score :" + this.props.score);
+        if (h < 10) {
             if (this.state.selectedOption === this.state.QNAs[h].answer) {
-                score++;
+                myScore++;
+                console.log("113 line score: " + this.state.score);
+                console.log(myScore);
+                this.setState({ score: myScore, correct: true });
+                console.log("116 line score: " + this.state.score);
+            } else {
+                this.setState({ correct: false });
             }
+            console.log("118 line score: " + this.state.score);
             h++;
             this.setState({
                 problemNum: h
             })
-            this.setState({ score: score, selectedOption: undefined });
-        } else if (h === 3) {
+            this.setState({ selectedOption: undefined });
+        } else if (h === 10) {
+            if (this.state.selectedOption === this.state.QNAs[h].answer) {
+                myScore++;
+                this.state.score = myScore;
+            }
+            console.log("finish the score = " + this.state.score);
+            var finalScore = this.state.score;
+            this.sendScore(finalScore);
+
             let userDataRef = firebase.database().ref("userdata")
             var dateobj = new Date();
             var month = dateobj.getMonth() + 1;
             var day = dateobj.getDate();
             var year = dateobj.getFullYear();
             console.log(this.state.displayName);
+            console.log("the middle of total score: " + this.state.score);
             let userData = {
                 score: this.state.score,
                 displayName: this.state.displayName,
@@ -131,8 +132,9 @@ export default class QuizPageView extends Component {
             let newPostKey = userDataRef.child('posts').push().key;
             var updates = {};
             updates[month + "-" + day + "-" + year + '/' + this.state.displayName] = userData;
-            this.props.history.push("resultpage");
+            this.props.history.push("/resultpage");
             return firebase.database().ref().update(updates);
+
         }
         console.log("total score: " + this.state.score);
         console.log("this state selectedOption is: " + this.state.selectedOption);
@@ -145,12 +147,27 @@ export default class QuizPageView extends Component {
         //this.setState({selectedOption:data});
     }
 
+    sendScore(data) {
+        console.log("finish the score = " + data);
+        this.props.sendScore(data);
+    }
+
     render() {
         return (
-            <div id="quiz">
+            <div id="quiz" className="container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
-                <form onSubmit={(evt) => this.handleAnswer(evt, this.state.score)}>
+                {
+                    this.state.correct === undefined ?
+                        undefined : this.state.correct ?
+                            <div className="alert alert-success">
+                                Correct!
+                        </div> :
+                            <div className="alert alert-danger">
+                                Wrong!
+                        </div>
+                }
+                <form onSubmit={(evt) => this.handleAnswer(evt)}>
                     <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption} />
                     {this.state.selectedOption === undefined ? undefined : <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>}
                 </form>
@@ -183,6 +200,7 @@ class Quiz extends Component {
     render() {
 
         return (
+
             <div>
                 {this.props.problem !== undefined ?
                     <div>
@@ -195,6 +213,8 @@ class Quiz extends Component {
                                         checked={this.state.selectedOption === this.props.problem.answers[0]}
                                         onChange={(evt) => this.handleOptionChange(evt)} />
                                     {" " + this.props.problem.answers[0]}
+                                    {console.log("the problems and answer" + this.props.problem.answers)}
+                                    {console.log("answer" + this.props.problem.answer)}
                                 </label>
                             </div>
                             <div className="radio">
