@@ -1,23 +1,43 @@
 import React, { Component } from 'react';
 import decode from 'urldecode';
+import PropTypes from 'prop-types';
+import Timer from 'react-timer-component';
+import swal from 'sweetalert';
 import firebase from 'firebase/app';
 import constants from './Constants';
 import 'firebase/auth';
 import 'firebase/database';
 import ResultPage from './ResultPage';
+
+const Countdown = (props, context) => {
+    const d = new Date(context.remaining); // auto passed context.remaining
+    const {seconds} = {
+      seconds: d.getUTCSeconds()
+    };
+    return (
+      <p>{`${seconds}`}</p>
+    );
+  };
+
+  Countdown.contextTypes = {
+    remaining: PropTypes.number,
+  };
+
 export default class QuizPageView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             checked: false,
-            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986",
+            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986&difficulty=hard",
             token: undefined,
             QNAs: {},
             score: 0,
             problemNum: 1,
             selectedOption: undefined,
-            correct: undefined
+            correct: undefined,
+            time:10000,
+            timer : undefined
         };
         this.getOption = this.getOption.bind(this);
         this.sendScore = this.sendScore.bind(this);
@@ -30,7 +50,9 @@ export default class QuizPageView extends Component {
                     authenticated: true,
                     displayName: user.displayName
                 })
-        });
+            }
+        );
+
         fetch(this.state.API_KEY)
             .then(response => response.json())
             .then((data) => {
@@ -60,15 +82,15 @@ export default class QuizPageView extends Component {
                     this.shuffleArray(myQNAs[i].answers);
                 }
                 this.setState({ QNAs: myQNAs });
+                console.log(myQNAs);
             })
             .catch(err => console.error(err));
     }
+    
+
 
     componentWillUnMount() {
         this.authUnsub();
-        this.props.dateRef.off();
-        this.props.displayNameRef.off();
-        this.props.scoreRef.off();
     }
 
     shuffleArray(array) {
@@ -95,8 +117,11 @@ export default class QuizPageView extends Component {
                 console.log(myScore);
                 this.setState({ score: myScore, correct: true });
                 console.log("116 line score: " + this.state.score);
+                swal("Yeah!", "You got it right!", "success");
+
             } else {
                 this.setState({ correct: false });
+                swal("Oops!", "The correct answer is " + this.state.QNAs[h].answer, "error");
             }
             console.log("118 line score: " + this.state.score);
             h++;
@@ -108,6 +133,10 @@ export default class QuizPageView extends Component {
             if (this.state.selectedOption === this.state.QNAs[h].answer) {
                 myScore++;
                 this.state.score = myScore;
+                swal("Yeah!", "You got it right!", "success");
+                
+            } else {
+                swal("Oops!", "The correct answer is " + this.state.QNAs[h].answer, "error");
             }
             console.log("finish the score = " + this.state.score);
             var finalScore = this.state.score;
@@ -144,7 +173,6 @@ export default class QuizPageView extends Component {
     getOption(data) {
         console.log(data);
         this.setState({ selectedOption: data });
-        //this.setState({selectedOption:data});
     }
 
     sendScore(data) {
@@ -152,24 +180,57 @@ export default class QuizPageView extends Component {
         this.props.sendScore(data);
     }
 
+    timeOut(){
+        let h = this.state.problemNum;
+        console.log("remaining"+this.props.remaining);
+        if (h < 10) {
+            this.setState({ correct: false });
+            console.log("118 line score: " + this.state.score);
+            h++;
+            this.setState({
+                problemNum: h
+            })
+            this.props.remaining = 10000;
+        } else if (h === 10) {
+            console.log("finish the score = " + this.state.score);
+            var finalScore = this.state.score;
+            this.sendScore(finalScore);
+            let userDataRef = firebase.database().ref("userdata")
+            var dateobj = new Date();
+            var month = dateobj.getMonth() + 1;
+            var day = dateobj.getDate();
+            var year = dateobj.getFullYear();
+            console.log(this.state.displayName);
+            console.log("the middle of total score: " + this.state.score);
+            let userData = {
+                score: this.state.score,
+                displayName: this.state.displayName,
+                dateTaken: {
+                    monthTaken: month,
+                    dayTaken: day,
+                    yearTaken: year
+                }
+            }
+            let newPostKey = userDataRef.child('posts').push().key;
+            var updates = {};
+            updates[month + "-" + day + "-" + year + '/' + this.state.displayName] = userData;
+            this.props.history.push("/resultpage");
+            return firebase.database().ref().update(updates);
+        }
+    }
     render() {
         return (
             <div id="quiz" className="container">
-                {/* {this.componentDidMountTimer()} */}
-                {/* <Timer countDown startTime={10} tick={1000}/> */}
-                {
-                    this.state.correct === undefined ?
-                        undefined : this.state.correct ?
-                            <div className="alert alert-success">
-                                Correct!
-                        </div> :
-                            <div className="alert alert-danger">
-                                Wrong!
-                        </div>
-                }
+                <Timer remaining = {this.state.time} afterCompleted={this.timeOut}>
+                    <Countdown />
+                </Timer>
                 <form onSubmit={(evt) => this.handleAnswer(evt)}>
-                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption} />
-                    {this.state.selectedOption === undefined ? undefined : <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>}
+                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption}/>
+                    {this.state.selectedOption === undefined ? undefined : 
+                    <div>
+                        
+                        <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>
+                    </div>}
                 </form>
             </div>
         );
@@ -190,6 +251,7 @@ class Quiz extends Component {
         });
         let value = changeEvent.target.value;
         this.sendOption(value);
+
     }
 
     sendOption(selectedOption) {

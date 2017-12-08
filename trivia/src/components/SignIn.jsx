@@ -41,7 +41,6 @@ export default class SignInView extends React.Component {
 
     render() {
         console.log("this.state.authenticated : "+this.state.authenticated);
- 
         return (this.state.authenticated ? <MainPageView /> :
             <div className="container">
                 <div className = "signin">
