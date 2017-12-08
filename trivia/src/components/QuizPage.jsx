@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import decode from 'urldecode';
 import PropTypes from 'prop-types';
 import Timer from 'react-timer-component';
+import swal from 'sweetalert';
 import firebase from 'firebase/app';
 import constants from './Constants';
 import 'firebase/auth';
