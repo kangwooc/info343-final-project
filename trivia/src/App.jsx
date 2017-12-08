@@ -6,11 +6,7 @@ import SignInView from './components/SignIn';
 import constants from './components/Constants';
 import MainPageView from './components/MainPage';
 import QuizPageView from './components/QuizPage';
-<<<<<<< HEAD
 import ResultPageView from './components/ResultPage';
-=======
-import ResultPageView from "./components/ResultPage";
->>>>>>> 070fe1be042a6b23edbed3e1146fbcfbd4d25092
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -81,11 +77,7 @@ class App extends Component {
               <Route path={constants.routes.signup} component={SignUpView} />
               <Route path={constants.routes.mainpage} component={MainPageView} />{console.log(this.state.authenicated)}
               <Route path={constants.routes.quizpage} component={QuizPageView}  />
-<<<<<<< HEAD
-              <Route path = {constants.routes.resultpage} component={ResultPageView}/>
-=======
               <Route path = {constants.routes.resultpage} component={ResultPageView} />
->>>>>>> 070fe1be042a6b23edbed3e1146fbcfbd4d25092
             </Switch>
           </Router>
         </div>
