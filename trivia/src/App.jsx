@@ -77,11 +77,6 @@ class App extends Component {
             this.state.errorMessage ? <div className="alert alert-danger">{this.state.errorMessage}</div> :
               undefined
           }
-          {/* {
-            this.state.authenicated ?
-              <div className="alert alert-success">Welcome to Trivia World</div> : undefined
-          } */}
-          {/* <p>user is <strong>{this.state.authenicated ? "Authenticated!" : "Not Authenticated."}</strong></p> */}
           <span>{this.state.working ? "working on it !" : undefined}</span>
           <Router>
             <Switch>
@@ -98,14 +93,6 @@ class App extends Component {
             </Switch>
           </Router>
         </div>
-        {/* <div className="footer">
-          <section>
-            <footer>
-              <p></p>
-            </footer>
-          </section>
-
-        </div> */}
       </div>
     );
   }

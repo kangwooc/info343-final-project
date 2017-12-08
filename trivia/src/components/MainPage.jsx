@@ -45,6 +45,10 @@ export default class MainPageView extends Component {
                     this.setState({
                         taken: (
                             <div className="container">
+                            <div>
+                            <p>Challenge yourself with <strong>Hard</strong> Question</p>
+                            <p>Compare your score with other people!</p>
+                            </div>
                                 <button
                                     className="btn btn-info"
                                     onClick={(evt) => this.quiz(evt)}>
