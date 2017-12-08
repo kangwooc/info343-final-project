@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import decode from 'urldecode';
 import firebase from 'firebase/app';
 import constants from './Constants';
 import 'firebase/auth';
@@ -10,12 +11,13 @@ export default class QuizPageView extends Component {
         super(props);
         this.state = {
             checked: false,
-            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple",
+            API_KEY: "https://opentdb.com/api.php?amount=10&type=multiple&encode=url3986",
             token: undefined,
             QNAs: {},
             score: 0,
             problemNum: 1,
-            selectedOption: undefined
+            selectedOption: undefined,
+            correct: undefined
         };
         this.getOption = this.getOption.bind(this);
         this.sendScore = this.sendScore.bind(this);
@@ -62,12 +64,12 @@ export default class QuizPageView extends Component {
                         answers: [],
                         answer: ""
                     };
-                    let q = elem.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+                    let q = decode(elem.question);
                     var anss = [];
                     for (let i = 0; i < elem.incorrect_answers.length; i++) {
-                        anss.push(elem.incorrect_answers[i].replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&scaron;/g, "š"));
+                        anss.push(decode(elem.incorrect_answers[i]));
                     }
-                    var ans = elem.correct_answer.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&scaron;/g, "š");
+                    var ans = decode(elem.correct_answer);
                     QNA.question = q;
                     QNA.answers = anss;
                     QNA.answer = ans;
@@ -104,29 +106,31 @@ export default class QuizPageView extends Component {
         let h = this.state.problemNum;
         var myScore = this.state.score;
         console.log("h in handleAnswer = " + h);
-        console.log("user displayname = "+this.state.displayName);
+        console.log("user displayname = " + this.state.displayName);
         console.log("Quiz current score state: " + this.state.score);
-        console.log("Quiz prop score :"+this.props.score);
-        if(h<10){
-            if(this.state.selectedOption === this.state.QNAs[h].answer){
+        console.log("Quiz prop score :" + this.props.score);
+        if (h < 10) {
+            if (this.state.selectedOption === this.state.QNAs[h].answer) {
                 myScore++;
                 console.log("113 line score: " + this.state.score);
                 console.log(myScore);
-                this.state.score = myScore;
+                this.setState({ score: myScore, correct: true });
                 console.log("116 line score: " + this.state.score);
+            } else {
+                this.setState({ correct: false });
             }
             console.log("118 line score: " + this.state.score);
             h++;
             this.setState({
                 problemNum: h
             })
-            this.setState({selectedOption: undefined });
+            this.setState({ selectedOption: undefined });
         } else if (h === 10) {
-            if(this.state.selectedOption === this.state.QNAs[h].answer){
+            if (this.state.selectedOption === this.state.QNAs[h].answer) {
                 myScore++;
                 this.state.score = myScore;
             }
-            console.log("finish the score = "+this.state.score);
+            console.log("finish the score = " + this.state.score);
             var finalScore = this.state.score;
             this.sendScore(finalScore);
 
@@ -151,7 +155,7 @@ export default class QuizPageView extends Component {
             updates[month + "-" + day + "-" + year + '/' + this.state.displayName] = userData;
             this.props.history.push("/resultpage");
             return firebase.database().ref().update(updates);
-           
+
         }
         console.log("total score: " + this.state.score);
         console.log("this state selectedOption is: " + this.state.selectedOption);
@@ -164,20 +168,33 @@ export default class QuizPageView extends Component {
         //this.setState({selectedOption:data});
     }
 
-    sendScore(data){
+    sendScore(data) {
         console.log("finish the score = " + data);
         this.props.sendScore(data);
     }
-    
+
     render() {
         return (
-            <div id="quiz" className = "container">
+            <div id="quiz" className="container">
                 {/* {this.componentDidMountTimer()} */}
                 {/* <Timer countDown startTime={10} tick={1000}/> */}
+                {
+                    this.state.correct === undefined ?
+                        undefined : this.state.correct ?
+                            <div className="alert alert-success">
+                                Correct!
+                        </div> :
+                            <div className="alert alert-danger">
+                                Wrong!
+                        </div>
+                }
                 <form onSubmit={(evt) => this.handleAnswer(evt)}>
-                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption}/>
+                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption} />
                     {this.state.selectedOption === undefined ? undefined : <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>}
                 </form>
+
+
+
             </div>
         );
     }
@@ -205,9 +222,9 @@ class Quiz extends Component {
     }
 
     render() {
-        
+
         return (
-            
+
             <div>
                 {this.props.problem !== undefined ?
                     <div>
@@ -219,9 +236,9 @@ class Quiz extends Component {
                                     <input type="radio" value={this.props.problem.answers[0]}
                                         checked={this.state.selectedOption === this.props.problem.answers[0]}
                                         onChange={(evt) => this.handleOptionChange(evt)} />
-                                    {" " + this.props.problem.answers[0]} 
-                                    {console.log("the problems and answer"+this.props.problem.answers)}
-                                    {console.log("answer"+this.props.problem.answer)}
+                                    {" " + this.props.problem.answers[0]}
+                                    {console.log("the problems and answer" + this.props.problem.answers)}
+                                    {console.log("answer" + this.props.problem.answer)}
                                 </label>
                             </div>
                             <div className="radio">

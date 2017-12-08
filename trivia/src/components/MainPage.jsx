@@ -38,7 +38,7 @@ export default class MainPageView extends Component {
     quiz(evt) {
         evt.preventDefault();
         this.props.history.replace(constants.routes.quizpage);
-        <Redirect to = {constants.routes.quizpage}/>
+        //<Redirect to = {constants.routes.quizpage}/>
     }
 
     render() {
@@ -78,7 +78,7 @@ export default class MainPageView extends Component {
                 <LeaderBoard  />
                 {taken}
                 <p>
-                    <button className="btn btn-danger signout" onClick={()=>this.handleSignOut()}> Sign Out</button>
+                    <button className="btn btn-danger text-center" onClick={()=>this.handleSignOut()}> Sign Out</button>
                 </p>
             </div>
         );
