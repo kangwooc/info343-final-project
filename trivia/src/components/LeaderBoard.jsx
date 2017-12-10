@@ -62,6 +62,10 @@ export default class LeaderBoard extends Component {
                 }
             });
 
+            if(old.length>10){
+                old.slice(0,9);
+            }
+            
             var obj = [];
             for (var i = 0; i < old.length; i++) {
                 obj[i] = old[i];
