@@ -61,30 +61,33 @@ export default class LeaderBoard extends Component {
                     return 0;
                 }
             });
+            
             var obj = [];
             for(var i = 0; i < 10; i++) {
-            obj[i] = old[i];
+                obj[i] = old[i];
             }
             console.log(obj);
-            var result = obj.map(a => a.name);
-            var rs = obj.map(a=> a.score);
-            this.setState({
-                chartData: {
-                    // labels - array that houses player names
-                    //labels: names,
-                    labels: result,
-                    datasets: [
-                        {
-                        label: 'Score',
-                        // data - array of player scores
-                        //data: scores,
-                        data: rs,
-                        // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
-                        backgroundColor: "orange"
-                        }
-                    ]
-                }
-            });
+            if(!obj){
+                var result = obj.map(a => a.name);
+                var rs = obj.map(a=> a.score);
+                this.setState({
+                    chartData: {
+                        // labels - array that houses player names
+                        //labels: names,
+                        labels: result,
+                        datasets: [
+                            {
+                            label: 'Score',
+                            // data - array of player scores
+                            //data: scores,
+                            data: rs,
+                            // backgroundColor - Array of color values assigned to players - COULD THIS BE CREATED AND STORED AT USER CREATION TIME?
+                            backgroundColor: "orange"
+                            }
+                        ]
+                    }
+                });
+        }
         });
         this.setState({i:this.state.i++});
         console.log("array of display name: "+names);

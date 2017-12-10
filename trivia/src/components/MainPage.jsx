@@ -35,31 +35,51 @@ export default class MainPageView extends Component {
                 displayNames.push(childSnapshot.val().displayName);
             })
             console.log(displayNames);
-            for (let i = 0; i < displayNames.length; i++) {
-                console.log(this.state.displayName);
-                console.log((this.state.displayName === displayNames[i]));
-                if ((this.state.displayName === displayNames[i])||this.state.displayName === undefined) {
-                    this.setState({ taken: (<h3>Come back tomorrow!</h3>) });
-                    break;
-                } else {    //taken
-                    this.setState({
-                        taken: (
-                            <div className="container">
-                            <div>
-                            <p>Challenge yourself with <strong>Hard</strong> Question</p>
-                            <p>Compare your score with other people!</p>
-                            </div>
-                                <button
-                                    className="btn btn-info"
-                                    onClick={(evt) => this.quiz(evt)}>
-                                    Take Quiz!
-                                </button>
-                            </div>
-                        )
-                    });
+            if(displayNames.length!==0){
+                for (let i = 0; i < displayNames.length; i++) {
+                    console.log(this.state.displayName);
+                    console.log((this.state.displayName === displayNames[i]));
+                    console.log(taken);
+                    if ((this.state.displayName === displayNames[i])||this.state.displayName === undefined) {
+                        this.setState({ taken: (<h3>Come back tomorrow!</h3>) });
+                        break;
+                    } else {    //taken
+                        this.setState({
+                            taken: (
+                                <div className="container">
+                                <div>
+                                <p>Challenge yourself with <strong>Hard</strong> Question</p>
+                                <p>Compare your score with other people!</p>
+                                </div>
+                                    <button
+                                        className="btn btn-info"
+                                        onClick={(evt) => this.quiz(evt)}>
+                                        Take Quiz!
+                                    </button>
+                                </div>
+                            )
+                        });
+                    }
+                    console.log(taken);
                 }
-                console.log(this.state.taken);
+            }else{
+                this.setState({
+                    taken: (
+                        <div className="container">
+                        <div>
+                        <p>Challenge yourself with <strong>Hard</strong> Question</p>
+                        <p>Compare your score with other people!</p>
+                        </div>
+                            <button
+                                className="btn btn-info"
+                                onClick={(evt) => this.quiz(evt)}>
+                                Take Quiz!
+                            </button>
+                        </div>
+                    )
+                });
             }
+            
         });
     }
 
