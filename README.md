@@ -18,4 +18,4 @@ Will Tucker - User account creation and management, chart.js integration, stylin
 Kangwoo Choi – Primary quiz functionality, scoring <br>
 Tina Zhuang – Site architecture, main page and results page, styling <br>
 <br>
-If you want to play game, click the [link](https://witchperson.github.io/info343-final-project/#/)
+If you want to play game, click the [link](https://witchperson.github.io/info343-final-project/#/)!
