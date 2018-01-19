@@ -13,9 +13,11 @@ Users will not be allowed to take the challenge more than once a day, but they w
 
 Responsibilities will be divided as follows:
 <br>
-Mesfin Berkele – User account systems <br>
-Will Tucker - User account creation and management, chart.js integration, styling, project management <br>
-Kangwoo Choi – Primary quiz functionality, scoring <br>
-Tina Zhuang – Site architecture, main page and results page, styling <br>
+<ul>
+  <li>Mesfin Berkele – User account systems</li> 
+  <li>Will Tucker - User account creation and management, chart.js integration, styling, project management</li>
+  <li>Kangwoo Choi – Primary quiz functionality, scoring</li>
+  <li>Tina Zhuang – Site architecture, main page and results page, styling</li>
+</ul>
 <br>
 If you want to play game, click the [link](https://witchperson.github.io/info343-final-project/#/)!
