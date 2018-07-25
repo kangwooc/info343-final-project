@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HorizontalBar, Bar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
+import { HorizontalBar } from 'react-chartjs-2';  //https://github.com/jerairrest/react-chartjs-2
 // import Timer from "react.timer"; // https://github.com/rogermarkussen/react.timer
 import firebase from "firebase/app";
 import 'firebase/auth';
@@ -45,9 +45,7 @@ export default class LeaderBoard extends Component {
         var scores = [];
         var old = [];
         let dataRef = firebase.database().ref(month + "-" + day + "-" + year).on("value", (snapshot) => {
-            console.log(snapshot.val());
             snapshot.forEach(function (childSnapshot) {
-                console.log(childSnapshot.val());
                 names.push(childSnapshot.val().displayName);
                 scores.push(childSnapshot.val().score);
                 old.push({ name: childSnapshot.val().displayName, score: childSnapshot.val().score });
@@ -70,7 +68,6 @@ export default class LeaderBoard extends Component {
             for (var i = 0; i < old.length; i++) {
                 obj[i] = old[i];
             }
-            console.log(obj);
             var result = obj.map(a => a.name);
             var rs = obj.map(a => a.score);
             this.setState({
@@ -93,9 +90,6 @@ export default class LeaderBoard extends Component {
 
         });
         this.setState({ i: this.state.i++ });
-        console.log("array of display name: " + names);
-        console.log("array of scores = " + scores);
-
     }
 
     render() {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
 import constants from "./Constants";
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -22,7 +21,7 @@ export default class MainPageView extends Component {
                 authenticated: this.props.authenticated
             });
         });
-        console.log("after I send a data"+this.state.displayName);
+        
         var taken;
         var dateobj = new Date();
         var month = dateobj.getMonth() + 1;
@@ -34,19 +33,15 @@ export default class MainPageView extends Component {
             snapshot.forEach(function (childSnapshot) {
                 displayNames.push(childSnapshot.val().displayName);
             })
-            console.log(displayNames);
-            if(displayNames.length!==0){
+            if (displayNames.length !== 0) {
                 for (let i = 0; i < displayNames.length; i++) {
-                    console.log(this.state.displayName);
-                    console.log((this.state.displayName === displayNames[i]));
-                    console.log(taken);
-                    if ((this.state.displayName === displayNames[i])||this.state.displayName === undefined) {
+                    if ((this.state.displayName === displayNames[i]) || this.state.displayName === undefined ) {
                         this.setState({ taken: (<h3>Come back tomorrow!</h3>) });
                         break;
                     } else {    //taken
                         this.setState({
                             taken: (
-                                <div className="container">
+                                <div className = "container">
                                 <div>
                                 <p>Challenge yourself with <strong>Hard</strong> Question</p>
                                 <p>Compare your score with other people!</p>
@@ -62,7 +57,7 @@ export default class MainPageView extends Component {
                     }
                     console.log(taken);
                 }
-            }else{
+            } else {
                 this.setState({
                     taken: (
                         <div className="container">

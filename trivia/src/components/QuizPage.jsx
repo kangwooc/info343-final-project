@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import decode from 'urldecode';
 import swal from 'sweetalert';
 import firebase from 'firebase/app';
-import constants from './Constants';
 import 'firebase/auth';
 import 'firebase/database';
-import ResultPage from './ResultPage';
 
 
 export default class QuizPageView extends Component {
@@ -120,7 +118,7 @@ export default class QuizPageView extends Component {
             } else {
                 swal("Oops!", "The correct answer is " + this.state.QNAs[h].answer, "error");
             }
-            console.log("finish the score = " + this.state.score);
+            
             var finalScore = this.state.score;
             this.sendScore(finalScore);
 
@@ -129,8 +127,7 @@ export default class QuizPageView extends Component {
             var month = dateobj.getMonth() + 1;
             var day = dateobj.getDate();
             var year = dateobj.getFullYear();
-            console.log(this.state.displayName);
-            console.log("the middle of total score: " + this.state.score);
+            
             let userData = {
                 score: this.state.score,
                 displayName: this.state.displayName,
@@ -140,36 +137,29 @@ export default class QuizPageView extends Component {
                     yearTaken: year
                 }
             }
-            let newPostKey = userDataRef.child('posts').push().key;
             var updates = {};
             updates[month + "-" + day + "-" + year + '/' + this.state.displayName] = userData;
             this.props.history.push("/resultpage");
             return firebase.database().ref().update(updates);
-
         }
-        console.log("total score: " + this.state.score);
-        console.log("this state selectedOption is: " + this.state.selectedOption);
-        console.log("handleAnswer state: " + this.state.score);
     }
 
     getOption(data) {
-        console.log(data);
         this.setState({ selectedOption: data });
     }
 
     sendScore(data) {
-        console.log("finish the score = " + data);
         this.props.sendScore(data);
     }
 
     render() {
         return (
-            <div id="quiz" className="container">
-                <form onSubmit={(evt) => this.handleAnswer(evt)}>
-                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score={this.state.score} sendOption={this.getOption} mySelectedOption={this.state.selectedOption} />
+            <div id = "quiz" className = "container">
+                <form onSubmit = {(evt) => this.handleAnswer(evt)}>
+                    <Quiz problem={this.state.QNAs[this.state.problemNum]} score = {this.state.score} sendOption = {this.getOption} mySelectedOption = {this.state.selectedOption} />
                     {this.state.selectedOption === undefined ? undefined :
                         <div>
-                            <button className="btn btn-info nextbutton" type="submit" >Next &#8594;</button>
+                            <button className = "btn btn-info nextbutton" type = "submit" >Next &#8594;</button>
                         </div>}
                 </form>
             </div>
@@ -195,7 +185,6 @@ class Quiz extends Component {
     }
 
     sendOption(selectedOption) {
-        console.log("selectedOption: " + selectedOption);
         this.props.sendOption(selectedOption);
     }
 
@@ -204,40 +193,38 @@ class Quiz extends Component {
             <div>
                 {this.props.problem !== undefined ?
                     <div>
-                        <div id="score">{this.props.score} out of {this.props.problem.number}</div>
-                        <div id="question" className="alert alert-dark">{this.props.problem.number}.{" " + this.props.problem.question}</div>
+                        <div id = "score">{this.props.score} out of {this.props.problem.number}</div>
+                        <div id = "question" className = "alert alert-dark">{this.props.problem.number}.{" " + this.props.problem.question}</div>
                         <form>
-                            <div className="radio">
+                            <div className = "radio">
                                 <label>
-                                    <input type="radio" value={this.props.problem.answers[0]}
-                                        checked={this.state.selectedOption === this.props.problem.answers[0]}
-                                        onChange={(evt) => this.handleOptionChange(evt)} />
+                                    <input type = "radio" value = {this.props.problem.answers[0]}
+                                        checked = {this.state.selectedOption === this.props.problem.answers[0]}
+                                        onChange = {(evt) => this.handleOptionChange(evt)} />
                                     {" " + this.props.problem.answers[0]}
-                                    {console.log("the problems and answer" + this.props.problem.answers)}
-                                    {console.log("answer" + this.props.problem.answer)}
                                 </label>
                             </div>
                             <div className="radio">
                                 <label>
-                                    <input type="radio" value={this.props.problem.answers[1]}
-                                        checked={this.state.selectedOption === this.props.problem.answers[1]}
-                                        onChange={(evt) => this.handleOptionChange(evt)} />
+                                    <input type = "radio" value = {this.props.problem.answers[1]}
+                                        checked = {this.state.selectedOption === this.props.problem.answers[1]}
+                                        onChange = {(evt) => this.handleOptionChange(evt)} />
                                     {" " + this.props.problem.answers[1]}
                                 </label>
                             </div>
-                            <div className="radio">
+                            <div className = "radio">
                                 <label>
-                                    <input type="radio" value={this.props.problem.answers[2]}
-                                        checked={this.state.selectedOption === this.props.problem.answers[2]}
-                                        onChange={(evt) => this.handleOptionChange(evt)} />
+                                    <input type = "radio" value = {this.props.problem.answers[2]}
+                                        checked = {this.state.selectedOption === this.props.problem.answers[2]}
+                                        onChange = {(evt) => this.handleOptionChange(evt)} />
                                     {" " + this.props.problem.answers[2]}
                                 </label>
                             </div>
                             <div className="radio">
                                 <label>
-                                    <input type="radio" value={this.props.problem.answers[3]}
-                                        checked={this.state.selectedOption === this.props.problem.answers[3]}
-                                        onChange={(evt) => this.handleOptionChange(evt)} />
+                                    <input type = "radio" value = {this.props.problem.answers[3]}
+                                        checked = {this.state.selectedOption === this.props.problem.answers[3]}
+                                        onChange = {(evt) => this.handleOptionChange(evt)} />
                                     {" " + this.props.problem.answers[3]}
                                 </label>
                             </div>

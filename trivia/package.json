@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "chart.js": "^2.7.1",
+    "chart.js": "^2.7.2",
     "firebase": "^4.7.0",
-    "gh-pages": "^1.1.0",
+    "gh-pages": "^1.2.0",
     "hoek": "^5.0.3",
     "moment": "^2.21.0",
     "prop-types": "^15.6.0",
@@ -14,7 +14,7 @@
     "react-countdown-timer": "^1.0.3",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17",
+    "react-scripts": "^1.1.4",
     "react-timer-component": "^1.0.2",
     "sweetalert": "^2.0.8",
     "urldecode": "^1.0.1"

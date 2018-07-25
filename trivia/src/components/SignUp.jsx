@@ -1,9 +1,8 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import constants from "./Constants";
 import firebase from "firebase";
 import "firebase/auth";
-import MainPageView from './MainPage';
 
 export default class SignUpView extends React.Component {
     constructor(props) {
@@ -27,12 +26,11 @@ export default class SignUpView extends React.Component {
     
     handleSubmit(evt){
         evt.preventDefault();
-        console.log(this.state.displayName);
         // handle unique displayName
 
-        if (this.state.displayName===undefined){
+        if (this.state.displayName === undefined){
             this.setState({errorMessage: "please enter a display name"});
-        }else {
+        } else {
             this.setState({working: true, errorMessage: undefined});
             firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
                 .then(user => user.updateProfile({
@@ -41,12 +39,11 @@ export default class SignUpView extends React.Component {
                 .catch(err => this.setState({errorMessage: err.message}))
                 .then(() => this.setState({working: false}));   
                 firebase.auth().onAuthStateChanged(user => {
-                    if(user) {
+                    if (user) {
                         this.props.history.push("mainpage");  
                     }
                 }); 
         }
-        console.log("display Name = "+this.state.displayName);
     }
 
     render() {
