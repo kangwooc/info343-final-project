@@ -20,4 +20,4 @@ Responsibilities will be divided as follows:
   <li>Tina Zhuang – Site architecture, main page and results page, styling</li>
 </ul>
 
-If you want to play game, click the [link](https://witchperson.github.io/info343-final-project/#/)!
+If you want to play game, click the [link](https://kangwooc.github.io/info343-final-project/#/)!

@@ -57,14 +57,10 @@ class App extends Component {
   }
 
   getScore(data){
-    console.log(data);
     this.setState({score:data});
   }
 
   render() {
-
-    console.log(this.state.authenicated);
-    console.log("Authenticated in app.jsx: " + this.state.authenicated);
 
     return (
       
