@@ -6,6 +6,7 @@
     "chart.js": "^2.7.2",
     "firebase": "^4.7.0",
     "gh-pages": "^1.2.0",
+    "grpc": "^1.17.0-pre1",
     "hoek": "^5.0.3",
     "moment": "^2.21.0",
     "prop-types": "^15.6.0",
@@ -14,7 +15,7 @@
     "react-countdown-timer": "^1.0.3",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "^1.1.4",
+    "react-scripts": "^2.1.1",
     "react-timer-component": "^1.0.2",
     "sweetalert": "^2.0.8",
     "urldecode": "^1.0.1"
